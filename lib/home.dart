@@ -52,13 +52,14 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 0.0,
         actions: <Widget>[
           Icon(Icons.settings),
         ],
         centerTitle: true,
-        backgroundColor: Colors.blueGrey[700],
+        backgroundColor: Color(0xfffbb448),
         title: Text(
-          'Bon Coin',
+          'bonCoin',
           style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
         ),
       ),
@@ -87,7 +88,7 @@ class _HomeState extends State<Home> {
                   GButton(
                     icon: LineIcons.home,
                     text: 'Home',
-                    backgroundColor: Colors.cyan,
+                    backgroundColor: Color(0xfffbb448),
                   ),
                   GButton(
                     icon: LineIcons.heart_o,
@@ -110,7 +111,7 @@ class _HomeState extends State<Home> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blueGrey,
+        backgroundColor: Color(0xfffbb448),
         child: Icon(Icons.create),
         elevation: 10.0,
         splashColor: Colors.blueGrey[700],

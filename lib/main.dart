@@ -1,5 +1,7 @@
+import 'package:bonCoinSN/Pages/HomeScreen.dart';
 import 'package:bonCoinSN/Posts/NewPost.dart';
 import 'package:bonCoinSN/home.dart';
+import 'package:bonCoinSN/src/welcomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:splashscreen/splashscreen.dart';
@@ -24,20 +26,27 @@ class _MyAppState extends State<MyApp> {
               return PageTransition(
                   child: new SplashScreen(
                       seconds: 5,
-                      navigateAfterSeconds: new Home(),
+                      navigateAfterSeconds: new WelcomePage(),
                       title: new Text(
-                        'BON COIN',
+                        'bonCoin',
                         style: TextStyle(
                             fontFamily: 'Roboto',
                             fontSize: 35.0,
                             fontWeight: FontWeight.bold,
                             color: Colors.white),
                       ),
-                      backgroundColor: Colors.blueGrey[400],
+                      gradientBackground: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Color(0xfffbb448), Color(0xffe46b10)]),
+                      // backgroundColor: Color(0xfffbb448),
                       styleTextUnderTheLoader: new TextStyle(),
                       loaderColor: Colors.white),
                   type: PageTransitionType.rightToLeft);
               break;
+            case "/home":
+              return PageTransition(
+                  child: Home(), type: PageTransitionType.fade);
             case "/post":
               return PageTransition(
                   child: NewPost(), type: PageTransitionType.downToUp);
