@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "618870091605",
+    "firebase_url": "https://boncoin-86a1e.firebaseio.com",
+    "project_id": "boncoin-86a1e",
+    "storage_bucket": "boncoin-86a1e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:618870091605:android:6ab0bbc06e4d6023ecc9dc",
+        "android_client_info": {
+          "package_name": "com.wone.bonCoinSN"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "618870091605-tondnmc5d06j71s3lan169sf68vm7qc7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7yEGbGOpNhjdds_1ZK5ssdjQUKVfjCKk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "618870091605-tondnmc5d06j71s3lan169sf68vm7qc7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

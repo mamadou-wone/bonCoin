@@ -124,16 +124,6 @@ class _WelcomePageState extends State<WelcomePage> {
               SizedBox(
                 height: 50,
               ),
-              FlatButton(
-                color: Colors.grey,
-                onPressed: () {
-                  return Navigator.pushReplacementNamed(context, '/home');
-                },
-                child: Text(
-                  'Test HomeScreen',
-                  style: TextStyle(color: Colors.white),
-                ),
-              ),
             ],
           ),
         ),
