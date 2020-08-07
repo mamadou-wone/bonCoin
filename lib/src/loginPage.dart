@@ -138,13 +138,15 @@ class _LoginPageState extends State<LoginPage> {
         // print('test');
         dynamic result = await _auth.signInWithEmailAndPassword(
             widget.email, widget.password);
-        if (result != null) {
-          print('connecter');
-          return Navigator.pushReplacementNamed(context, '/home');
+        if (_formKey.currentState.validate()) {
+          if (result == null) {
+            setState(() {
+              widget.error = 'Impossible de se connecter avec ces identifiants';
+            });
+          }
+          // Navigator.pushReplacementNamed(context, '/home');
         }
-        // if (_formKey.currentState.validate()) {
-
-        // }
+        return result;
       },
     );
   }
@@ -304,44 +306,54 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     return Scaffold(
-        body: Container(
-      height: height,
-      child: Stack(
-        children: <Widget>[
-          Positioned(
-              top: -height * .15,
-              right: -MediaQuery.of(context).size.width * .4,
-              child: BezierContainer()),
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(height: height * .2),
-                  _title(),
-                  SizedBox(height: 50),
-                  _emailPasswordWidget(),
-                  SizedBox(height: 20),
-                  _submitButton(),
-                  // Container(
-                  //   padding: EdgeInsets.symmetric(vertical: 10),
-                  //   alignment: Alignment.centerRight,
-                  //   child: Text('Forgot Password ?',
-                  //       style: TextStyle(
-                  //           fontSize: 14, fontWeight: FontWeight.w500)),
-                  // ),
-                  _divider(),
-                  _facebookButton(),
-                  SizedBox(height: height * .055),
-                  _createAccountLabel(),
-                ],
+        body: Form(
+      key: _formKey,
+      child: Container(
+        height: height,
+        child: Stack(
+          children: <Widget>[
+            Positioned(
+                top: -height * .15,
+                right: -MediaQuery.of(context).size.width * .4,
+                child: BezierContainer()),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    SizedBox(height: height * .2),
+                    _title(),
+                    SizedBox(height: 50),
+                    _emailPasswordWidget(),
+                    SizedBox(height: 20),
+                    _submitButton(),
+                    SizedBox(
+                      height: 12.0,
+                    ),
+                    Text(
+                      widget.error,
+                      style: TextStyle(color: Colors.red, fontSize: 14.0),
+                    ),
+                    // Container(
+                    //   padding: EdgeInsets.symmetric(vertical: 10),
+                    //   alignment: Alignment.centerRight,
+                    //   child: Text('Forgot Password ?',
+                    //       style: TextStyle(
+                    //           fontSize: 14, fontWeight: FontWeight.w500)),
+                    // ),
+                    _divider(),
+                    _facebookButton(),
+                    SizedBox(height: height * .055),
+                    _createAccountLabel(),
+                  ],
+                ),
               ),
             ),
-          ),
-          Positioned(top: 40, left: 0, child: _backButton()),
-        ],
+            Positioned(top: 40, left: 0, child: _backButton()),
+          ],
+        ),
       ),
     ));
   }

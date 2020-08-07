@@ -52,6 +52,7 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: Icon(Icons.person),
         elevation: 0.0,
         actions: <Widget>[
           Icon(Icons.settings),

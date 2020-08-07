@@ -56,7 +56,8 @@ class _SignUpPageState extends State<SignUpPage> {
             height: 10,
           ),
           TextFormField(
-              validator: (value) => value.isEmpty ? 'Enter a email' : null,
+              validator: (value) =>
+                  value.isEmpty ? 'Entrer une email valide' : null,
               onChanged: (value) {
                 setState(() {
                   fieldValue = value;
@@ -88,8 +89,9 @@ class _SignUpPageState extends State<SignUpPage> {
             height: 10,
           ),
           TextFormField(
-              validator: (value) =>
-                  value.length < 6 ? 'Enter a password 6 + chars long' : null,
+              validator: (value) => value.length < 6
+                  ? 'Enter un mot de passe supérieur à 6 caractères'
+                  : null,
               onChanged: (value) {
                 setState(() {
                   fieldValue = value;
