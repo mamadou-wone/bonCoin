@@ -111,9 +111,10 @@ class _HomeState extends State<Home> {
           ),
         ),
       ),
+      // Static Day
       floatingActionButton: FloatingActionButton(
         backgroundColor: Color(0xfffbb448),
-        child: Icon(Icons.create),
+        child: Icon(Icons.add),
         elevation: 10.0,
         splashColor: Colors.blueGrey[700],
         onPressed: () {},

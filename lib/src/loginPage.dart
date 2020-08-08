@@ -144,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
               widget.error = 'Impossible de se connecter avec ces identifiants';
             });
           }
-          // Navigator.pushReplacementNamed(context, '/home');
+          Navigator.pushReplacementNamed(context, '/home');
         }
         return result;
       },

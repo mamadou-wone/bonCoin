@@ -18,8 +18,8 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Center(
         child: Column(
           children: <Widget>[
-            IconButton(
-                icon: Icon(Icons.ac_unit), onPressed: () => print(user.email)),
+            // IconButton(
+            // icon: Icon(Icons.ac_unit), onPressed: () => print(user.email)),
           ],
         ),
       ),
