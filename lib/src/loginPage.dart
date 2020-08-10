@@ -144,8 +144,9 @@ class _LoginPageState extends State<LoginPage> {
             setState(() {
               widget.error = 'Impossible de se connecter avec ces identifiants';
             });
+          } else {
+            Navigator.pushReplacementNamed(context, '/home');
           }
-          Navigator.pushReplacementNamed(context, '/home');
         }
         return result;
       },
@@ -185,7 +186,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Widget _facebookButton() {
+  Widget _googleButton() {
     return GestureDetector(
       child: Container(
         height: 50,
@@ -233,8 +234,14 @@ class _LoginPageState extends State<LoginPage> {
         ),
       ),
       onTap: () async {
-        bool result = await AuthService().loginWithGoogle();
-        if (!result) print('error');
+        dynamic result = await AuthService().loginWithGoogle();
+        if (result == null) {
+          setState(() {
+            widget.error = 'Impossible de se connecter avec ces identifiants';
+          });
+        } else {
+          Navigator.of(context).pushReplacementNamed('/home');
+        }
       },
     );
   }
@@ -351,7 +358,7 @@ class _LoginPageState extends State<LoginPage> {
                     //           fontSize: 14, fontWeight: FontWeight.w500)),
                     // ),
                     _divider(),
-                    _facebookButton(),
+                    _googleButton(),
                     SizedBox(height: height * .055),
                     _createAccountLabel(),
                   ],

@@ -58,7 +58,7 @@ class _HomeState extends State<Home> {
           Icon(Icons.settings),
         ],
         centerTitle: true,
-        backgroundColor: Color(0xfffbb448),
+        backgroundColor: Colors.indigo[900],
         title: Text(
           'bonCoin',
           style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
@@ -89,7 +89,7 @@ class _HomeState extends State<Home> {
                   GButton(
                     icon: LineIcons.home,
                     text: 'Home',
-                    backgroundColor: Color(0xfffbb448),
+                    backgroundColor: Colors.indigo[900],
                   ),
                   GButton(
                     icon: LineIcons.heart_o,
@@ -99,7 +99,7 @@ class _HomeState extends State<Home> {
                   GButton(
                     icon: LineIcons.user,
                     text: 'Profil',
-                    backgroundColor: Colors.blue,
+                    backgroundColor: Color(0xfffbb448),
                   ),
                 ],
                 selectedIndex: selectedIndex,
@@ -113,10 +113,10 @@ class _HomeState extends State<Home> {
       ),
       // Static Day
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Color(0xfffbb448),
+        backgroundColor: Colors.indigo[900],
         child: Icon(Icons.add),
         elevation: 10.0,
-        splashColor: Colors.blueGrey[700],
+        splashColor: Colors.indigo[700],
         onPressed: () {},
       ),
     );

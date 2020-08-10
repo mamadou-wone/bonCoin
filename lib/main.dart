@@ -7,12 +7,17 @@ import 'package:bonCoinSN/src/Widget/wrapper.dart';
 import 'package:bonCoinSN/src/loginPage.dart';
 import 'package:bonCoinSN/src/welcomePage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
 import 'package:splashscreen/splashscreen.dart';
 
 void main() {
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      .then((_) {
+    runApp(MyApp());
+  });
 }
 
 class MyApp extends StatefulWidget {
@@ -42,10 +47,11 @@ class _MyAppState extends State<MyApp> {
                               fontWeight: FontWeight.bold,
                               color: Colors.white),
                         ),
-                        gradientBackground: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [Color(0xfffbb448), Color(0xffe46b10)]),
+                        backgroundColor: Colors.indigo[900],
+                        // gradientBackground: LinearGradient(
+                        //     begin: Alignment.topCenter,
+                        //     end: Alignment.bottomCenter,
+                        //     colors: [Color(0xfffbb448), Color(0xffe46b10)]),
                         // backgroundColor: Color(0xfffbb448),
                         styleTextUnderTheLoader: new TextStyle(),
                         loaderColor: Colors.white),

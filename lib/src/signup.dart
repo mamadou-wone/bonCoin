@@ -1,3 +1,4 @@
+import 'package:bonCoinSN/home.dart';
 import 'package:bonCoinSN/services/auth.dart';
 import 'package:bonCoinSN/src/Widget/bezierContainer.dart';
 import 'package:bonCoinSN/src/loginPage.dart';
@@ -136,6 +137,9 @@ class _SignUpPageState extends State<SignUpPage> {
         if (_formKey.currentState.validate()) {
           dynamic result = await _auth.registerWithEmailAndPassword(
               widget.email, widget.password);
+          if (result != null) {
+            Navigator.of(context).pushReplacementNamed('/home');
+          }
           print(result);
         }
       },

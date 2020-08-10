@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "618870091605-ejf0j20ij11lbep16622k50tkbbkn310.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wone.bonCoinSN",
+            "certificate_hash": "f5ebe087aa1dbc2dbd507c9085c9175a84da1589"
+          }
+        },
+        {
           "client_id": "618870091605-tondnmc5d06j71s3lan169sf68vm7qc7.apps.googleusercontent.com",
           "client_type": 3
         }

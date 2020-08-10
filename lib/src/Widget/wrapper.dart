@@ -8,11 +8,12 @@ class Wrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
-    print(user);
+    print(('User not connect'));
     if (user == null) {
       return WelcomePage();
     } else {
       return Home();
+      // Navigator.of(context).pushReplacementNamed('/home');
     }
   }
 }
