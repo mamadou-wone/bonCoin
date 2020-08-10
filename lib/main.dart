@@ -4,7 +4,6 @@ import 'package:bonCoinSN/home.dart';
 import 'package:bonCoinSN/modals/user.dart';
 import 'package:bonCoinSN/services/auth.dart';
 import 'package:bonCoinSN/src/Widget/wrapper.dart';
-import 'package:bonCoinSN/src/loginPage.dart';
 import 'package:bonCoinSN/src/welcomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -60,12 +59,11 @@ class _MyAppState extends State<MyApp> {
               case "/home":
                 return PageTransition(
                     child: Home(), type: PageTransitionType.fade);
-              case "/login":
-                return PageTransition(
-                    child: LoginPage(), type: PageTransitionType.fade);
+                break;
               case "/post":
                 return PageTransition(
                     child: NewPost(), type: PageTransitionType.downToUp);
+                break;
               default:
                 return null;
             }
