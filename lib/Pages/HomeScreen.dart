@@ -15,13 +15,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
     return Scaffold(
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            // IconButton(
-            // icon: Icon(Icons.ac_unit), onPressed: () => print(user.email)),
-          ],
-        ),
+      body: Image.network(
+        'https://png.pngtree.com/png-clipart/20190516/original/pngtree-whatsapp-icon-png-image_3584844.jpg',
+        width: 50.0,
+        height: 50.0,
       ),
     );
   }

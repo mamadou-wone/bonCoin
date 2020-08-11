@@ -31,7 +31,7 @@ class _AccountState extends State<Account> {
               height: 120.0,
             ),
             Text(
-              'COMPTE',
+              user.name,
               style: TextStyle(fontSize: 30.0),
             ),
             FlatButton(

@@ -6,7 +6,9 @@ class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
   User _userFromFirebaseUser(FirebaseUser user) {
-    return user != null ? User(uid: user.uid, email: user.photoUrl) : null;
+    return user != null
+        ? User(uid: user.uid, email: user.photoUrl, name: user.displayName)
+        : null;
   }
 
   // auth change stream
@@ -70,3 +72,5 @@ class AuthService {
     }
   }
 }
+
+// Login with Facebook
