@@ -14,6 +14,7 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   Widget _googleButton() {
     return GestureDetector(
       child: Container(
@@ -62,6 +63,7 @@ class _WelcomePageState extends State<WelcomePage> {
         ),
       ),
       onTap: () async {
+        _onLoading();
         dynamic result = await AuthService().loginWithGoogle();
         if (result == null) {
           setState(() {
@@ -155,7 +157,7 @@ class _WelcomePageState extends State<WelcomePage> {
         ),
       ),
       onTap: () {
-        print('Facebook button');
+        _onLoading();
       },
     );
   }
@@ -184,9 +186,22 @@ class _WelcomePageState extends State<WelcomePage> {
     );
   }
 
+  void _onLoading() {
+    _scaffoldKey.currentState.showSnackBar(new SnackBar(
+      duration: new Duration(seconds: 4),
+      content: new Row(
+        children: <Widget>[
+          new CircularProgressIndicator(),
+          new Text("  Connection...")
+        ],
+      ),
+    ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 20),

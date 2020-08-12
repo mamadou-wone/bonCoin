@@ -9,12 +9,29 @@ class Account extends StatefulWidget {
 }
 
 class _AccountState extends State<Account> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final AuthService _auth = AuthService();
+  void _onLoading() async {
+    _scaffoldKey.currentState.showSnackBar(new SnackBar(
+      duration: new Duration(seconds: 4),
+      content: new Row(
+        children: <Widget>[
+          new CircularProgressIndicator(),
+          new Text("  Déconnection..."),
+        ],
+      ),
+    ));
+  }
+
+  Future _signInout() async {
+    await _auth.signOut();
+  }
 
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
     return Scaffold(
+      key: _scaffoldKey,
       body: Center(
         child: Column(
           children: <Widget>[
@@ -36,8 +53,8 @@ class _AccountState extends State<Account> {
             ),
             FlatButton(
               onPressed: () async {
-                await _auth.signOut();
-                // print(user.email);
+                _onLoading();
+                _signInout();
               },
               child: Text('SeDéconnecter'),
             ),
