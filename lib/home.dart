@@ -4,8 +4,10 @@ import 'package:bonCoinSN/Posts/NewPost.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
 
 import 'Pages/HomeScreen.dart';
+import 'modals/user.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -50,9 +52,17 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    final user = Provider.of<User>(context);
     return Scaffold(
       appBar: AppBar(
-        leading: Icon(Icons.person),
+        // leading: ClipRRect(
+        //   borderRadius: BorderRadius.circular(80.0),
+        //   child: Image.network(
+        //     user.pictureUrl,
+        //     width: 10,
+        //     height: 10,
+        //   ),
+        // ),
         elevation: 0.0,
         actions: <Widget>[
           Icon(Icons.settings),
@@ -117,7 +127,13 @@ class _HomeState extends State<Home> {
         child: Icon(Icons.add),
         elevation: 10.0,
         splashColor: Colors.indigo[700],
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => NewPost(),
+            ),
+          );
+        },
       ),
     );
   }

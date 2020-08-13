@@ -7,7 +7,11 @@ class AuthService {
 
   User _userFromFirebaseUser(FirebaseUser user) {
     return user != null
-        ? User(uid: user.uid, email: user.photoUrl, name: user.displayName)
+        ? User(
+            uid: user.uid,
+            email: user.email,
+            name: user.displayName,
+            pictureUrl: user.photoUrl)
         : null;
   }
 

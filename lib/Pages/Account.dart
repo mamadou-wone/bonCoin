@@ -43,7 +43,7 @@ class _AccountState extends State<Account> {
               child: Text('Test'),
             ),
             Image.network(
-              user.email,
+              user.pictureUrl,
               width: 150.0,
               height: 120.0,
             ),
