@@ -2,6 +2,7 @@ import 'package:bonCoinSN/services/auth.dart';
 import 'package:bonCoinSN/src/loginPage.dart';
 import 'package:bonCoinSN/src/signup.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class WelcomePage extends StatefulWidget {
@@ -14,6 +15,8 @@ class WelcomePage extends StatefulWidget {
 }
 
 class _WelcomePageState extends State<WelcomePage> {
+  FacebookLogin facebookLogin = new FacebookLogin();
+  AuthService _auth = AuthService();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   Widget _googleButton() {
     return GestureDetector(
@@ -156,8 +159,16 @@ class _WelcomePageState extends State<WelcomePage> {
           ],
         ),
       ),
-      onTap: () {
+      onTap: () async {
         _onLoading();
+        dynamic result = await AuthService().loginWithFacebook();
+        if (result == null) {
+          setState(() {
+            widget.error = 'Impossible de se connecter avec ces identifiants';
+          });
+        } else {
+          // Navigator.of(context).pushReplacementNamed('/home');
+        }
       },
     );
   }

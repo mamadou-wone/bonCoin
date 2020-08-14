@@ -1,5 +1,6 @@
 import 'package:bonCoinSN/modals/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthService {
@@ -75,6 +76,33 @@ class AuthService {
       return null;
     }
   }
-}
 
-// Login with Facebook
+  // Login with Facebook
+  Future loginWithFacebook() async {
+    try {
+      // final facebookAuthCred =
+      //     FacebookAuthProvider.getCredential();
+
+      final FacebookLogin facebookLogin = new FacebookLogin();
+      FacebookLoginResult facebookLoginResult =
+          await facebookLogin.logIn(['email']);
+      // AuthResult result = await _auth.signInWithCredential();
+      AuthResult result = await _auth.signInWithCredential(
+          FacebookAuthProvider.getCredential(
+              accessToken: facebookLoginResult.accessToken.token));
+      FirebaseUser user = result.user;
+      return _userFromFirebaseUser(user);
+    } catch (e) {
+      print(e.toString());
+      return null;
+    }
+
+    // var result = await facebookLogin.logIn(['email']);
+    // switch (result.status) {
+    //   case FacebookLoginStatus.loggedIn:
+    //     print('ok');
+    //     break;
+    //   default:
+    // }
+  }
+}
