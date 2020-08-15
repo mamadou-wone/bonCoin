@@ -79,30 +79,30 @@ class AuthService {
 
   // Login with Facebook
   Future loginWithFacebook() async {
+    // final value = await facebookLogin.logIn(['email']);
     try {
-      // final facebookAuthCred =
-      //     FacebookAuthProvider.getCredential();
-
-      final FacebookLogin facebookLogin = new FacebookLogin();
-      FacebookLoginResult facebookLoginResult =
-          await facebookLogin.logIn(['email']);
-      // AuthResult result = await _auth.signInWithCredential();
-      AuthResult result = await _auth.signInWithCredential(
-          FacebookAuthProvider.getCredential(
-              accessToken: facebookLoginResult.accessToken.token));
-      FirebaseUser user = result.user;
-      return _userFromFirebaseUser(user);
+      FacebookLogin facebookLogin = FacebookLogin();
+      FacebookLoginResult account = await facebookLogin.logIn(['email']);
+      // print(account.toString());
+      // if (account == null) return false;
+      if (account.status == FacebookLoginStatus.loggedIn) {
+        final FacebookAccessToken accessToken = account.accessToken;
+        print(accessToken.userId);
+        // AuthCredential credential = FacebookAuthProvider.getCredential(
+        //     accessToken: account.accessToken.token);
+        // AuthResult result = await _auth.signInWithCredential(credential);
+        // FirebaseUser user = result.user;
+        // // AuthResult result = await _auth.signInWithCredential(
+        // //   FacebookAuthProvider.getCredential(
+        // //       accessToken: account.accessToken.token),
+        // // );
+        // // FirebaseUser user = result.user;
+        // // if (result == null) return false;
+        // return _userFromFirebaseUser(user);
+      }
     } catch (e) {
       print(e.toString());
       return null;
     }
-
-    // var result = await facebookLogin.logIn(['email']);
-    // switch (result.status) {
-    //   case FacebookLoginStatus.loggedIn:
-    //     print('ok');
-    //     break;
-    //   default:
-    // }
   }
 }
