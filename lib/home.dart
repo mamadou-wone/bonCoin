@@ -1,6 +1,8 @@
 import 'package:bonCoinSN/Pages/Account.dart';
 import 'package:bonCoinSN/Pages/Favorite.dart';
+import 'package:bonCoinSN/Pages/mapScreen.dart';
 import 'package:bonCoinSN/Posts/NewPost.dart';
+import 'package:bonCoinSN/settings/settingScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
@@ -31,7 +33,7 @@ class _HomeState extends State<Home> {
       children: <Widget>[
         HomeScreen(),
         Favorite(),
-        Account(),
+        SettingScreen(),
       ],
     );
   }
@@ -55,18 +57,18 @@ class _HomeState extends State<Home> {
     final user = Provider.of<User>(context);
     return Scaffold(
       appBar: AppBar(
-        // leading: ClipRRect(
-        //   borderRadius: BorderRadius.circular(80.0),
-        //   child: Image.network(
-        //     user.pictureUrl,
-        //     width: 10,
-        //     height: 10,
-        //   ),
-        // ),
         elevation: 0.0,
-        actions: <Widget>[
-          Icon(Icons.settings),
-        ],
+        // actions: <Widget>[
+        //   IconButton(
+        //       icon: Icon(Icons.settings),
+        //       onPressed: () {
+        //         Navigator.of(context).push(
+        //           MaterialPageRoute(
+        //             builder: (context) => SettingScreen(),
+        //           ),
+        //         );
+        //       }),
+        // ],
         centerTitle: true,
         backgroundColor: Colors.indigo[900],
         title: Text(
@@ -108,7 +110,7 @@ class _HomeState extends State<Home> {
                   ),
                   GButton(
                     icon: LineIcons.user,
-                    text: 'Profil',
+                    text: 'Compte',
                     backgroundColor: Color(0xfffbb448),
                   ),
                 ],

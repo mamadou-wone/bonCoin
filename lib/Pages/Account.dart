@@ -32,6 +32,15 @@ class _AccountState extends State<Account> {
     final user = Provider.of<User>(context);
     return Scaffold(
       key: _scaffoldKey,
+      appBar: AppBar(
+        elevation: 0.0,
+        centerTitle: true,
+        backgroundColor: Colors.indigo[900],
+        title: Text(
+          'bonCoin',
+          style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
+        ),
+      ),
       body: Center(
         child: Column(
           children: <Widget>[
@@ -54,7 +63,7 @@ class _AccountState extends State<Account> {
             FlatButton(
               onPressed: () async {
                 _onLoading();
-                _signInout();
+                // _signInout();
               },
               child: Text('SeDéconnecter'),
             ),
