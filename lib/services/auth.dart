@@ -1,8 +1,9 @@
 import 'package:bonCoinSN/modals/user.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+// import 'package:flutter_facebook_login/flutter_facebook_login.dart';s
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -82,18 +83,27 @@ class AuthService {
   Future loginWithFacebook() async {
     // final value = await facebookLogin.logIn(['email']);
     try {
-      FacebookLogin facebookLogin = FacebookLogin();
-      final result = await facebookLogin.logIn(['email']);
-      FacebookAccessToken token = result.accessToken;
-      final graphResponse = await http.get(
-          'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name&access_token=${token}');
-      print(graphResponse.body);
+      final fb = FacebookLogin();
 
-      if (result.status == FacebookLoginStatus.loggedIn) {
-        final credential =
-            FacebookAuthProvider.getCredential(accessToken: token.token);
-        _auth.signInWithCredential(credential);
-      }
+// Log in
+      final res = await fb.logIn(permissions: [
+        FacebookPermission.publicProfile,
+        FacebookPermission.email,
+      ]);
+      print(res.status);
+      // FacebookLogin facebookLogin = FacebookLogin();
+      // final result = await facebookLogin.logIn(['email']);
+      // print(result.status);
+      // FacebookAccessToken token = result.accessToken;
+      // final graphResponse = await http.get(
+      //     'https://graph.facebook.com/v2.12/me?fields=name,first_name,last_name&access_token=${token}');
+      // print('le token est  ${result.accessToken}');
+
+      // if (result.status == FacebookLoginStatus.loggedIn) {
+      //   final credential =
+      //       FacebookAuthProvider.getCredential(accessToken: token.token);
+      //   _auth.signInWithCredential(credential);
+      // }
 
 // final profile = JSON.decode(graphResponse.body);
       // FacebookLogin facebookLogin = FacebookLogin();

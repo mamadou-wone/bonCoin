@@ -2,7 +2,8 @@ import 'package:bonCoinSN/services/auth.dart';
 import 'package:bonCoinSN/src/loginPage.dart';
 import 'package:bonCoinSN/src/signup.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:flutter_login_facebook/flutter_login_facebook.dart';
+// import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class WelcomePage extends StatefulWidget {
