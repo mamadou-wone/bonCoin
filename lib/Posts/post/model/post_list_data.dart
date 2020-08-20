@@ -16,7 +16,6 @@ class PostListData {
   double rating;
   int reviews;
   int perNight;
-
   static List<PostListData> postList = <PostListData>[
     PostListData(
       imagePath: 'assets/hotel/hotel_1.png',
@@ -53,33 +52,6 @@ class PostListData {
       reviews: 90,
       rating: 4.4,
       perNight: 170,
-    ),
-    PostListData(
-      imagePath: 'assets/hotel/hotel_5.png',
-      titleTxt: 'Grand Royal Hotel',
-      subTxt: 'Wembley, London',
-      dist: 2.0,
-      reviews: 240,
-      rating: 4.5,
-      perNight: 200,
-    ),
-    PostListData(
-      imagePath: 'assets/hotel/hotel_5.png',
-      titleTxt: 'Grand Royal Hotel',
-      subTxt: 'Wembley, London',
-      dist: 2.0,
-      reviews: 240,
-      rating: 4.5,
-      perNight: 200,
-    ),
-    PostListData(
-      imagePath: 'assets/hotel/hotel_5.png',
-      titleTxt: 'Grand Royal Hotel',
-      subTxt: 'Wembley, London',
-      dist: 2.0,
-      reviews: 240,
-      rating: 4.5,
-      perNight: 200,
     ),
     PostListData(
       imagePath: 'assets/hotel/hotel_5.png',
