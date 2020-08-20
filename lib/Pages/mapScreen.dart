@@ -1,4 +1,4 @@
-import 'package:bonCoinSN/settings/settingScreen.dart';
+import 'package:bonCoin/settings/settingScreen.dart';
 import 'package:flutter/material.dart';
 
 class MapScreen extends StatefulWidget {

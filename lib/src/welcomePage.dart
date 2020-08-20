@@ -1,6 +1,6 @@
-import 'package:bonCoinSN/services/auth.dart';
-import 'package:bonCoinSN/src/loginPage.dart';
-import 'package:bonCoinSN/src/signup.dart';
+import 'package:bonCoin/services/auth.dart';
+import 'package:bonCoin/src/loginPage.dart';
+import 'package:bonCoin/src/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 // import 'package:flutter_facebook_login/flutter_facebook_login.dart';

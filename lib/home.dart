@@ -1,8 +1,8 @@
-import 'package:bonCoinSN/Pages/Account.dart';
-import 'package:bonCoinSN/Pages/Favorite.dart';
-import 'package:bonCoinSN/Pages/mapScreen.dart';
-import 'package:bonCoinSN/Posts/NewPost.dart';
-import 'package:bonCoinSN/settings/settingScreen.dart';
+import 'package:bonCoin/Pages/Account.dart';
+import 'package:bonCoin/Pages/Favorite.dart';
+import 'package:bonCoin/Pages/mapScreen.dart';
+import 'package:bonCoin/Posts/NewPost.dart';
+import 'package:bonCoin/settings/settingScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';

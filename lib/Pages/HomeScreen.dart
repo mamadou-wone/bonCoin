@@ -1,6 +1,6 @@
-import 'package:bonCoinSN/Pages/hotel_booking/hotel_home_screen.dart';
-import 'package:bonCoinSN/modals/user.dart';
-import 'package:bonCoinSN/services/auth.dart';
+import 'package:bonCoin/Posts/post/post_home_screen.dart';
+import 'package:bonCoin/modals/user.dart';
+import 'package:bonCoin/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -16,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
     return Scaffold(
-      body: HotelHomeScreen(),
+      body: PostHomeScreen(),
     );
   }
 }

@@ -1,10 +1,10 @@
-import 'package:bonCoinSN/Pages/HomeScreen.dart';
-import 'package:bonCoinSN/Posts/NewPost.dart';
-import 'package:bonCoinSN/home.dart';
-import 'package:bonCoinSN/modals/user.dart';
-import 'package:bonCoinSN/services/auth.dart';
-import 'package:bonCoinSN/src/Widget/wrapper.dart';
-import 'package:bonCoinSN/src/welcomePage.dart';
+import 'package:bonCoin/Pages/HomeScreen.dart';
+import 'package:bonCoin/Posts/NewPost.dart';
+import 'package:bonCoin/home.dart';
+import 'package:bonCoin/modals/user.dart';
+import 'package:bonCoin/services/auth.dart';
+import 'package:bonCoin/src/Widget/wrapper.dart';
+import 'package:bonCoin/src/welcomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:page_transition/page_transition.dart';

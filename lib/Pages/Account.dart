@@ -1,5 +1,5 @@
-import 'package:bonCoinSN/modals/user.dart';
-import 'package:bonCoinSN/services/auth.dart';
+import 'package:bonCoin/modals/user.dart';
+import 'package:bonCoin/services/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

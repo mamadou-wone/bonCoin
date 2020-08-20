@@ -1,8 +1,8 @@
 import 'dart:ffi';
 
-import 'package:bonCoinSN/home.dart';
-import 'package:bonCoinSN/services/auth.dart';
-import 'package:bonCoinSN/src/signup.dart';
+import 'package:bonCoin/home.dart';
+import 'package:bonCoin/services/auth.dart';
+import 'package:bonCoin/src/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

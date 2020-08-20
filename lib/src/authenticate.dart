@@ -1,5 +1,5 @@
-import 'package:bonCoinSN/src/loginPage.dart';
-import 'package:bonCoinSN/src/signup.dart';
+import 'package:bonCoin/src/loginPage.dart';
+import 'package:bonCoin/src/signup.dart';
 import 'package:flutter/material.dart';
 
 class Authenticate extends StatefulWidget {

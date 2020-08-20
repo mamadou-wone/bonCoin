@@ -1,6 +1,6 @@
-import 'package:bonCoinSN/home.dart';
-import 'package:bonCoinSN/modals/user.dart';
-import 'package:bonCoinSN/src/welcomePage.dart';
+import 'package:bonCoin/home.dart';
+import 'package:bonCoin/modals/user.dart';
+import 'package:bonCoin/src/welcomePage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
