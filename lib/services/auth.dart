@@ -1,4 +1,5 @@
 import 'package:bonCoin/modals/user.dart';
+import 'package:bonCoin/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:flutter_facebook_login/flutter_facebook_login.dart';s
 import 'package:google_sign_in/google_sign_in.dart';
@@ -72,6 +73,16 @@ class AuthService {
       );
       FirebaseUser user = result.user;
       if (result == null) return false;
+      var timekey = new DateTime.now();
+      await DataBase(uid: user.uid).updateUserData(
+          timekey.toString(),
+          'firstTitle ',
+          'First description',
+          'Rufisque Dakar',
+          'BonCoin',
+          'firstImage',
+          'secondImage',
+          'thirdImage');
       return _userFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());
@@ -112,7 +123,7 @@ class AuthService {
       // if (account == null) return false;
       // if (account.status == FacebookLoginStatus.loggedIn) {
       //   final FacebookAccessToken accessToken = account.accessToken;
-      //   print(accessToken.userId);
+      //   print(accessToken.userId);ty()
       // AuthCredential credential = FacebookAuthProvider.getCredential(
       //     accessToken: account.accessToken.token);
       // AuthResult result = await _auth.signInWithCredential(credential);
