@@ -1,9 +1,7 @@
 import 'package:bonCoin/modals/user.dart';
 import 'package:bonCoin/services/database.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:flutter_facebook_login/flutter_facebook_login.dart';s
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 
 class AuthService {
@@ -74,6 +72,7 @@ class AuthService {
       FirebaseUser user = result.user;
       if (result == null) return false;
       var timekey = new DateTime.now();
+      await DataBase(uid: user.uid).addData(timekey.toString(), 'TestAdd');
       await DataBase(uid: user.uid).updateUserData(
           timekey.toString(),
           'firstTitle ',

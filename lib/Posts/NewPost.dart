@@ -1,8 +1,11 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 
 class NewPost extends StatefulWidget {
   @override
@@ -17,7 +20,44 @@ class _NewPostState extends State<NewPost> {
   final picker2 = ImagePicker();
   final picker3 = ImagePicker();
   Timestamp timestamp = Timestamp.now();
-  var timeKey = new DateTime.now();
+  String url;
+  void upload() async {
+    final StorageReference postImageRef =
+        FirebaseStorage.instance.ref().child("Post Images");
+
+    var timeKey = new DateTime.now();
+
+    final StorageUploadTask uploadTask =
+        postImageRef.child(timeKey.toString() + ' .jpg').putFile(_image);
+    var imageUrl = await (await uploadTask.onComplete).ref.getDownloadURL();
+    url = imageUrl.toString();
+
+    print('Image Url = ' + url);
+
+    saveToDataBase(url);
+  }
+
+  void saveToDataBase(url) async {
+    var dbTimeKey = new DateTime.now();
+    var formatDate = new DateFormat('MMM d,yyyy');
+    var formatTime = new DateFormat('EEEE,hh:mm aaa');
+
+    String date = formatDate.format(dbTimeKey);
+    String time = formatTime.format(dbTimeKey);
+    DatabaseReference rf = FirebaseDatabase.instance.reference();
+
+    var data = {
+      'image': url,
+      'description': 'Test upload image',
+      'date': date,
+      'time': time
+    };
+
+    rf.child('Posts').push().set(data);
+
+    // postCollection.document()
+  }
+
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
@@ -135,12 +175,7 @@ class _NewPostState extends State<NewPost> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            timeKey = new DateTime.now();
-            print(timeKey.toString());
-          });
-        },
+        onPressed: _image == null ? null : upload,
         tooltip: 'Pick Image',
         child: Icon(Icons.add_a_photo),
       ),

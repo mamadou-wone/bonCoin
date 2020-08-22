@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DataBase {
@@ -27,5 +25,16 @@ class DataBase {
       'secondImage': secondImage,
       'thirdImage': thirdImage
     });
+  }
+
+  Future addData(
+    String timekey,
+    String title,
+  ) async {
+    var data = {
+      'timeKey': timekey,
+      'title': title,
+    };
+    return await postCollection.document(uid).parent().add(data);
   }
 }
