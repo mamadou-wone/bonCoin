@@ -72,16 +72,16 @@ class AuthService {
       FirebaseUser user = result.user;
       if (result == null) return false;
       var timekey = new DateTime.now();
-      await DataBase(uid: user.uid).addData(timekey.toString(), 'TestAdd');
-      await DataBase(uid: user.uid).updateUserData(
-          timekey.toString(),
-          'firstTitle ',
-          'First description',
-          'Rufisque Dakar',
-          'BonCoin',
-          'firstImage',
-          'secondImage',
-          'thirdImage');
+      // await DataBase(uid: user.uid).addData(timekey.toString(), 'TestAdd');
+      // await DataBase(uid: user.uid).updateUserData(
+      //     timekey.toString(),
+      //     'firstTitle ',
+      //     'First description',
+      //     'Rufisque Dakar',
+      //     'BonCoin',
+      //     'firstImage',
+      //     'secondImage',
+      //     'thirdImage');
       return _userFromFirebaseUser(user);
     } catch (e) {
       print(e.toString());
