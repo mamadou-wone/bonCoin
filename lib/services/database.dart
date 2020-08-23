@@ -27,14 +27,45 @@ class DataBase {
     });
   }
 
-  Future addData(
-    String timekey,
-    String title,
-  ) async {
-    var data = {
+  Future addNewUserPost(
+      String timekey,
+      String title,
+      String description,
+      String location,
+      String category,
+      String firstImage,
+      String secondImage,
+      String thirdImage) async {
+    return await postCollection.document(uid).collection('userPosts').add({
       'timeKey': timekey,
       'title': title,
-    };
-    return await postCollection.document(uid).parent().add(data);
+      'description': description,
+      'location': location,
+      'category': category,
+      'firstIage': firstImage,
+      'secondImage': secondImage ?? '',
+      'thirdImage': thirdImage ?? ''
+    }).then((value) => print(value.documentID));
+  }
+
+  Future addNewPost(
+      String timekey,
+      String title,
+      String description,
+      String location,
+      String category,
+      String firstImage,
+      String secondImage,
+      String thirdImage) async {
+    return await postCollection.add({
+      'timeKey': timekey,
+      'title': title,
+      'description': description,
+      'location': location,
+      'category': category,
+      'firstIage': firstImage,
+      'secondImage': secondImage ?? '',
+      'thirdImage': thirdImage ?? ''
+    }).then((value) => print(value.documentID));
   }
 }
