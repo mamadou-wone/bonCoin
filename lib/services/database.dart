@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DataBase {
-  final String uid;
-  DataBase({this.uid});
   final CollectionReference postCollection =
       Firestore.instance.collection('post');
 
   Future updateUserData(
+      String uid,
       String timekey,
       String title,
       String description,
@@ -28,6 +27,7 @@ class DataBase {
   }
 
   Future addNewUserPost(
+      String uid,
       String timekey,
       String title,
       String description,
@@ -49,6 +49,7 @@ class DataBase {
   }
 
   Future addNewPost(
+      String uid,
       String timekey,
       String title,
       String description,
