@@ -4,7 +4,6 @@ import 'package:bonCoin/modals/user.dart';
 import 'package:bonCoin/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -64,34 +63,34 @@ class _NewPostState extends State<NewPost> {
 
   @override
   Widget build(BuildContext context) {
+    var imageTest;
     final user = Provider.of<User>(context);
     final firestoreInstance = Firestore.instance;
-    dynamic saveDataInFirestore(image) async {
+    saveDataInFirestore(image) async {
       final StorageReference postImageRef =
           FirebaseStorage.instance.ref().child("Post Images");
 
       var timeKey = new DateTime.now();
-      var testImage;
       final StorageUploadTask uploadTask =
           postImageRef.child(timeKey.toString() + ' .jpg').putFile(image);
       var imageUrl = await (await uploadTask.onComplete).ref.getDownloadURL();
       url = imageUrl.toString();
       print(url);
-      // var dbTimeKey = new DateTime.now();
-      // var formatDate = new DateFormat('MMM d,yyyy');
-      // var formatTime = new DateFormat('EEEE,hh:mm aaa');
+      var dbTimeKey = new DateTime.now();
+      var formatDate = new DateFormat('MMM d,yyyy');
+      var formatTime = new DateFormat('EEEE,hh:mm aaa');
 
-      // String date = formatDate.format(dbTimeKey);
-      // String time = formatTime.format(dbTimeKey);
-      // // DatabaseReference rf = FirebaseDatabase.instance.reference();
-      // final CollectionReference postCollection =
-      //     Firestore.instance.collection('post' + user.email);
-      // postCollection.document(user.uid).parent().add({
-      //   'image': url,
-      //   'description': 'Test upload image',
-      //   'date': date,
-      //   'time': time
-      // });
+      String date = formatDate.format(dbTimeKey);
+      String time = formatTime.format(dbTimeKey);
+      // DatabaseReference rf = FirebaseDatabase.instance.reference();
+      final CollectionReference postCollection =
+          Firestore.instance.collection('post' + user.email);
+      postCollection.document(user.uid).parent().add({
+        'image': url,
+        'description': 'Test upload image',
+        'date': date,
+        'time': time
+      });
 
       // var data = {
       //   'image': url,
@@ -130,35 +129,6 @@ class _NewPostState extends State<NewPost> {
               readOnly: false,
               child: Column(
                 children: <Widget>[
-                  // FormBuilderDateTimePicker(
-                  //   attribute: 'date',
-                  //   onChanged: _onChanged,
-                  //   inputType: InputType.both,
-                  //   decoration: const InputDecoration(
-                  //     labelText: 'Appointment Time',
-                  //   ),
-                  //   validator: (val) => null,
-                  //   initialTime: TimeOfDay(hour: 8, minute: 0),
-                  //   // initialValue: DateTime.now(),
-                  //   // readonly: true,
-                  // ),
-                  // SizedBox(height: 15),
-                  // FormBuilderDateRangePicker(
-                  //   attribute: 'date_range',
-                  //   firstDate: DateTime(1970),
-                  //   lastDate: DateTime.now(),
-                  //   initialValue: [
-                  //     DateTime.now().subtract(Duration(days: 30)),
-                  //     DateTime.now().subtract(Duration(seconds: 10))
-                  //   ],
-                  //   format: DateFormat('yyyy-MM-dd'),
-                  //   onChanged: _onChanged,
-                  //   decoration: const InputDecoration(
-                  //     labelText: 'Date Range',
-                  //     helperText: 'Helper text',
-                  //     hintText: 'Hint text',
-                  //   ),
-                  // ),
                   FormBuilderDropdown(
                     attribute: 'gender',
                     decoration: const InputDecoration(
@@ -224,8 +194,29 @@ class _NewPostState extends State<NewPost> {
                     //     return null;
                     //   }
                     // ],
-                    onChanged: (val) {
-                      setState(() {});
+
+                    onSaved: (val) {
+                      // print('test');
+                      if (_image != null) {
+                        print('Image picker ' + _image.toString());
+                      }
+                      setState(() {
+                        imageTest = val;
+                        // saveDataInFirestore(imageTest[0]);
+
+                        DataBase().addNewUserPost(
+                            uid: user.uid,
+                            category: 'Plage1234',
+                            description: 'Test sur la plage',
+                            firstImage: imageTest[0],
+                            location: 'Rufisque',
+                            secondImage: imageTest[1],
+                            thirdImage: imageTest[2] =
+                                null ? 'null' : imageTest[2],
+                            timekey: new DateTime.now().toString(),
+                            title: 'Les Vacances');
+                        // print('Image Picker ' + imageTest[0].toString());
+                      });
                     },
                   ),
                   SizedBox(height: 15),
@@ -294,11 +285,12 @@ class _NewPostState extends State<NewPost> {
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () {
+                      // if (_image != null) {
+                      //   print(_image);
+                      // }
                       if (_fbKey.currentState.saveAndValidate()) {
                         // print(_fbKey.currentState.value);
-                        if (_image != null) {
-                          saveDataInFirestore(_image);
-                        }
+                        // print(imageTest);
                       } else {
                         print(_fbKey.currentState.value);
                         print('validation failed');
@@ -446,7 +438,7 @@ class _NewPostState extends State<NewPost> {
       //   ],
       // ),
       floatingActionButton: FloatingActionButton(
-        onPressed: null,
+        onPressed: getImage,
         tooltip: 'Pick Image',
         child: Icon(Icons.add_a_photo),
       ),
