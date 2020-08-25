@@ -11,6 +11,7 @@ class Post {
   final File firstImage;
   final File secondImage;
   final File thirdImage;
+  final bool isFavorite;
 
   Post(
       {@required this.uid,
@@ -21,5 +22,6 @@ class Post {
       this.category,
       this.firstImage,
       this.secondImage,
-      this.thirdImage});
+      this.thirdImage,
+      this.isFavorite});
 }

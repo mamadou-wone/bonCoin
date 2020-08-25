@@ -146,9 +146,7 @@ class _NewPostState extends State<NewPost> {
                             firstImage: imageTest[0],
                             location: 'Rufisque',
                             secondImage: imageTest[1],
-                            thirdImage: imageTest.length < 3
-                                ? imageTest[1]
-                                : imageTest[2],
+                            thirdImage: imageTest[2],
                             timekey: new DateTime.now().toString(),
                             title: 'Les Vacances');
                         // print('Image Picker ' + imageTest[0].toString());
