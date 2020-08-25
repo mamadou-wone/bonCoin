@@ -79,18 +79,36 @@ class DataBase {
       String description,
       String location,
       String category,
-      String firstImage,
-      String secondImage,
-      String thirdImage) async {
+      File firstImage,
+      File secondImage,
+      File thirdImage) async {
+    final StorageReference postImageRef =
+        FirebaseStorage.instance.ref().child("Post Images");
+
+    var timeKey = new DateTime.now();
+    final StorageUploadTask uploadTask =
+        postImageRef.child(timeKey.toString() + ' .jpg').putFile(firstImage);
+    var imageUrl = await (await uploadTask.onComplete).ref.getDownloadURL();
+    url = imageUrl.toString();
+
+    final StorageUploadTask uploadTask2 =
+        postImageRef.child(timeKey.toString() + ' .jpg').putFile(secondImage);
+    var imageUrl2 = await (await uploadTask2.onComplete).ref.getDownloadURL();
+    url2 = imageUrl2.toString();
+
+    final StorageUploadTask uploadTask3 =
+        postImageRef.child(timeKey.toString() + ' .jpg').putFile(thirdImage);
+    var imageUrl3 = await (await uploadTask3.onComplete).ref.getDownloadURL();
+    url3 = imageUrl3.toString();
     return await postCollection.add({
       'timeKey': timekey,
       'title': title,
       'description': description,
       'location': location,
       'category': category,
-      'firstIage': firstImage,
-      'secondImage': secondImage ?? '',
-      'thirdImage': thirdImage ?? ''
+      'firstIage': url,
+      'secondImage': url2,
+      'thirdImage': url3
     }).then((value) => print(value.documentID));
   }
 }

@@ -30,79 +30,15 @@ class _NewPostState extends State<NewPost> {
   bool _ageHasError = false;
 
   File _image;
-  File _image2;
-  File _image3;
   final picker = ImagePicker();
   final picker2 = ImagePicker();
   final picker3 = ImagePicker();
   Timestamp timestamp = Timestamp.now();
   String url;
-  Future getImage() async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
-
-    setState(() {
-      _image = File(pickedFile.path);
-    });
-  }
-
-  Future getImage2() async {
-    final pickedFile = await picker2.getImage(source: ImageSource.gallery);
-
-    setState(() {
-      _image2 = File(pickedFile.path);
-    });
-  }
-
-  Future getImage3() async {
-    final pickedFile = await picker3.getImage(source: ImageSource.gallery);
-
-    setState(() {
-      _image3 = File(pickedFile.path);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     var imageTest;
     final user = Provider.of<User>(context);
-    final firestoreInstance = Firestore.instance;
-    saveDataInFirestore(image) async {
-      final StorageReference postImageRef =
-          FirebaseStorage.instance.ref().child("Post Images");
-
-      var timeKey = new DateTime.now();
-      final StorageUploadTask uploadTask =
-          postImageRef.child(timeKey.toString() + ' .jpg').putFile(image);
-      var imageUrl = await (await uploadTask.onComplete).ref.getDownloadURL();
-      url = imageUrl.toString();
-      print(url);
-      var dbTimeKey = new DateTime.now();
-      var formatDate = new DateFormat('MMM d,yyyy');
-      var formatTime = new DateFormat('EEEE,hh:mm aaa');
-
-      String date = formatDate.format(dbTimeKey);
-      String time = formatTime.format(dbTimeKey);
-      // DatabaseReference rf = FirebaseDatabase.instance.reference();
-      final CollectionReference postCollection =
-          Firestore.instance.collection('post' + user.email);
-      postCollection.document(user.uid).parent().add({
-        'image': url,
-        'description': 'Test upload image',
-        'date': date,
-        'time': time
-      });
-
-      // var data = {
-      //   'image': url,
-      //   'description': 'Test upload image',
-      //   'date': date,
-      //   'time': time
-      // };
-
-      // rf.child('Posts').push().set(data);
-      // saveToDataBase(url);
-    }
-
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -203,7 +139,6 @@ class _NewPostState extends State<NewPost> {
                       setState(() {
                         imageTest = val;
                         // saveDataInFirestore(imageTest[0]);
-
                         DataBase().addNewUserPost(
                             uid: user.uid,
                             category: 'Plage1234',
@@ -211,8 +146,9 @@ class _NewPostState extends State<NewPost> {
                             firstImage: imageTest[0],
                             location: 'Rufisque',
                             secondImage: imageTest[1],
-                            thirdImage: imageTest[2] =
-                                null ? 'null' : imageTest[2],
+                            thirdImage: imageTest.length < 3
+                                ? imageTest[1]
+                                : imageTest[2],
                             timekey: new DateTime.now().toString(),
                             title: 'Les Vacances');
                         // print('Image Picker ' + imageTest[0].toString());
@@ -316,129 +252,8 @@ class _NewPostState extends State<NewPost> {
           ],
         ),
       ),
-      // Column(
-      //   mainAxisAlignment: MainAxisAlignment.start,
-      //   children: [
-      //     // ListTile(
-      //     //   title: Text('Horse'),
-      //     //   subtitle: Text('A strong animal'),
-      //     // ),
-      //     Container(
-      //       padding: EdgeInsets.only(top: 8.0),
-      //       child: Row(
-      //         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      //         children: [
-      //           GestureDetector(
-      //             child: _image == null
-      //                 ? Container(
-      //                     height: 100.0,
-      //                     width: 100.0,
-      //                     color: Colors.grey,
-      //                     child: Icon(
-      //                       Icons.add_a_photo,
-      //                       size: 70.0,
-      //                       color: Colors.blueGrey[700],
-      //                     ),
-      //                   )
-      //                 : Container(
-      //                     child: Image.file(_image),
-      //                     height: 100.0,
-      //                     width: 100.0,
-      //                   ),
-      //             onTap: getImage,
-      //           ),
-      //           GestureDetector(
-      //             child: _image2 == null
-      //                 ? Container(
-      //                     height: 100.0,
-      //                     width: 100.0,
-      //                     color: Colors.grey,
-      //                     child: Icon(
-      //                       Icons.add_a_photo,
-      //                       size: 70.0,
-      //                       color: Colors.blueGrey[700],
-      //                     ),
-      //                   )
-      //                 : Container(
-      //                     child: Image.file(_image2),
-      //                     height: 100.0,
-      //                     width: 100.0,
-      //                   ),
-      //             onTap: () {
-      //               var timekey = new DateTime.now();
-      //               DataBase().addNewUserPost(
-      //                   user.uid,
-      //                   timekey.toString(),
-      //                   'Plage',
-      //                   'Meilleur Plage du monde',
-      //                   'Saly',
-      //                   'Loisir',
-      //                   'firstImage',
-      //                   'secondImage',
-      //                   'thirdImage');
-
-      //               DataBase().addNewPost(
-      //                   user.uid,
-      //                   timekey.toString(),
-      //                   'Plage',
-      //                   'Meilleur Plage du monde',
-      //                   'Saly',
-      //                   'Loisir',
-      //                   'firstImage',
-      //                   'secondImage',
-      //                   'thirdImage');
-      //             },
-      //           ),
-      //           GestureDetector(
-      //             child: _image3 == null
-      //                 ? Container(
-      //                     height: 100.0,
-      //                     width: 100.0,
-      //                     color: Colors.grey,
-      //                     child: Icon(
-      //                       Icons.add_a_photo,
-      //                       size: 70.0,
-      //                       color: Colors.blueGrey[700],
-      //                     ),
-      //                   )
-      //                 : Container(
-      //                     decoration: BoxDecoration(
-      //                       borderRadius: BorderRadius.circular(12.0),
-      //                       // color: Colors.white,
-      //                     ),
-      //                     child: Image.file(
-      //                       _image3,
-      //                       width: 100.0,
-      //                       height: 100.0,
-      //                     ),
-      //                   ),
-      //             onTap: () async {
-      //               firestoreInstance
-      //                   .collection("test")
-      //                   .getDocuments()
-      //                   .then((querySnapshot) {
-      //                 querySnapshot.documents.forEach((result) {
-      //                   firestoreInstance
-      //                       .collection('test')
-      //                       .document(user.uid)
-      //                       .collection('users')
-      //                       .getDocuments()
-      //                       .then((querySnapshot) {
-      //                     querySnapshot.documents.forEach((element) {
-      //                       print(element.data);
-      //                     });
-      //                   });
-      //                 });
-      //               });
-      //             },
-      //           ),
-      //         ],
-      //       ),
-      //     ),
-      //   ],
-      // ),
       floatingActionButton: FloatingActionButton(
-        onPressed: getImage,
+        onPressed: () {},
         tooltip: 'Pick Image',
         child: Icon(Icons.add_a_photo),
       ),
