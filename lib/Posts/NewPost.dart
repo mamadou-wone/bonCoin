@@ -8,8 +8,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class NewPost extends StatefulWidget {
@@ -24,20 +22,29 @@ class _NewPostState extends State<NewPost> {
   bool showSegmentedControl = true;
   final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
 
-  final ValueChanged _onChanged = (val) => print(val);
-  var genderOptions = ['Male', 'Female', 'Other'];
-  final _ageController = TextEditingController(text: '45');
-  bool _ageHasError = false;
+  var categorieOptions = [
+    'Plage',
+    'Restaurant',
+    'Technologie',
+    'Piscine',
+    'Parc Cuturel',
+  ];
+  // final _ageController = TextEditingController(text: '45');
+  // bool _ageHasError = false;
 
-  File _image;
-  final picker = ImagePicker();
-  final picker2 = ImagePicker();
-  final picker3 = ImagePicker();
+  // File _image;
   Timestamp timestamp = Timestamp.now();
   String url;
   @override
   Widget build(BuildContext context) {
-    var imageTest;
+    final Firestore firestoreInstance = Firestore();
+    String title;
+    String category;
+    String description;
+    String address;
+    double rating;
+    var phone;
+    var postImage;
     final user = Provider.of<User>(context);
     return Scaffold(
       appBar: AppBar(
@@ -65,50 +72,100 @@ class _NewPostState extends State<NewPost> {
               readOnly: false,
               child: Column(
                 children: <Widget>[
+                  FormBuilderTextField(
+                    attribute: "titre",
+                    decoration:
+                        InputDecoration(labelText: "Donnez le nom de ce lieu"),
+                    validators: [
+                      FormBuilderValidators.max(20),
+                      FormBuilderValidators.required(
+                          errorText: 'Ce champ est obligatoire'),
+                    ],
+                    onSaved: (val) {
+                      setState(() {
+                        title = val;
+                      });
+                    },
+                  ),
+                  SizedBox(height: 15),
                   FormBuilderDropdown(
-                    attribute: 'gender',
+                    attribute: 'categorie',
                     decoration: const InputDecoration(
-                      labelText: 'Gender',
+                      labelText: 'Catégorie',
                     ),
                     // initialValue: 'Male',
-                    hint: Text('Select Gender'),
+                    hint: Text('Selectionner une Catégorie'),
                     validators: [FormBuilderValidators.required()],
-                    items: genderOptions
-                        .map((gender) => DropdownMenuItem(
-                              value: gender,
-                              child: Text('$gender'),
+                    items: categorieOptions
+                        .map((categorie) => DropdownMenuItem(
+                              value: categorie,
+                              child: Text('$categorie'),
                             ))
                         .toList(),
                     // isExpanded: false,
                     allowClear: true,
+                    onSaved: (val) {
+                      setState(() {
+                        category = val;
+                      });
+                    },
                   ),
                   SizedBox(height: 15),
-                  FormBuilderRadioGroup(
+                  FormBuilderTextField(
+                    attribute: "titre",
                     decoration:
-                        InputDecoration(labelText: 'My chosen language'),
-                    attribute: 'best_language',
-                    onChanged: _onChanged,
-                    validators: [FormBuilderValidators.required()],
-                    options: ['Dart', 'Kotlin', 'Java', 'Swift', 'Objective-C']
-                        .map((lang) => FormBuilderFieldOption(
-                              value: lang,
-                              child: Text('$lang'),
-                            ))
-                        .toList(growable: false),
+                        InputDecoration(labelText: "Donnez une Description"),
+                    validators: [
+                      FormBuilderValidators.max(200),
+                      FormBuilderValidators.required(
+                          errorText: 'Ce champ est obligatoire'),
+                    ],
+                    onSaved: (val) {
+                      setState(() {
+                        description = val;
+                      });
+                    },
                   ),
                   SizedBox(height: 15),
+                  FormBuilderTextField(
+                    attribute: "addresse",
+                    decoration:
+                        InputDecoration(labelText: "Donnez une Addresse"),
+                    validators: [
+                      FormBuilderValidators.max(200),
+                      FormBuilderValidators.required(
+                          errorText: 'Ce champ est obligatoire'),
+                    ],
+                    onSaved: (val) {
+                      setState(() {
+                        address = val;
+                      });
+                    },
+                  ),
+                  SizedBox(
+                    height: 15.0,
+                  ),
                   FormBuilderRate(
                     decoration:
-                        const InputDecoration(labelText: 'Rate this form'),
+                        const InputDecoration(labelText: 'Noter ce lieu'),
                     attribute: 'rate',
                     iconSize: 32.0,
                     initialValue: 1.0,
                     max: 5.0,
-                    onChanged: _onChanged,
+                    // onChanged: _onChanged,
+                    onSaved: (val) {
+                      setState(() {
+                        rating = val;
+                      });
+                    },
                     // readOnly: true,
                     filledColor: Colors.red,
                     emptyColor: Colors.pink[100],
                     isHalfAllowed: true,
+                    validators: [
+                      FormBuilderValidators.required(
+                          errorText: 'Veuillez donner une note'),
+                    ],
                   ),
                   SizedBox(height: 15),
                   FormBuilderImagePicker(
@@ -121,91 +178,46 @@ class _NewPostState extends State<NewPost> {
                     maxImages: 3,
                     iconColor: Colors.red,
                     // readOnly: true,
-                    // validators: [
-                    //   FormBuilderValidators.required(),
-                    //   (images) {
-                    //     if (images.length < 2) {
-                    //       return 'Two or more images required.';
-                    //     }
-                    //     return null;
-                    //   }
-                    // ],
-
-                    onSaved: (val) {
-                      // print('test');
-                      if (_image != null) {
-                        print('Image picker ' + _image.toString());
+                    validators: [
+                      FormBuilderValidators.required(),
+                      (images) {
+                        if (images.length < 2) {
+                          return 'Selectionner trois images !.';
+                        }
+                        return null;
                       }
+                    ],
+                    onSaved: (val) {
                       setState(() {
-                        imageTest = val;
-                        // saveDataInFirestore(imageTest[0]);
-                        DataBase().addNewUserPost(
-                            uid: user.uid,
-                            category: 'Plage1234',
-                            description: 'Test sur la plage',
-                            firstImage: imageTest[0],
-                            location: 'Rufisque',
-                            secondImage: imageTest[1],
-                            thirdImage: imageTest[2],
-                            timekey: new DateTime.now().toString(),
-                            title: 'Les Vacances');
-                        // print('Image Picker ' + imageTest[0].toString());
+                        postImage = val;
                       });
                     },
                   ),
                   SizedBox(height: 15),
                   FormBuilderPhoneField(
+                    defaultSelectedCountryIsoCode: 'SN',
                     attribute: 'phone_number',
                     // defaultSelectedCountryIsoCode: 'KE',
                     cursorColor: Colors.black,
                     // style: TextStyle(color: Colors.black, fontSize: 18),
                     decoration: const InputDecoration(
                       border: OutlineInputBorder(),
-                      labelText: 'Phone Number',
+                      labelText: 'Téléphone',
                     ),
-                    onChanged: _onChanged,
-                    priorityListByIsoCode: ['US'],
+                    onSaved: (val) {
+                      setState(() {
+                        phone = val;
+                      });
+                    },
+                    priorityListByIsoCode: ['SN'],
                     validators: [
                       FormBuilderValidators.numeric(
-                          errorText: 'Invalid phone number'),
+                          errorText: 'Numéro invalide'),
                       FormBuilderValidators.required(
-                          errorText: 'This field reqired')
+                          errorText: 'Ce champ est obligatoire')
                     ],
                   ),
                   SizedBox(height: 15),
-                  FormBuilderRadioGroup(
-                    attribute: 'radio_group',
-                    decoration: const InputDecoration(labelText: 'Radio Group'),
-                    onChanged: _onChanged,
-                    options: [
-                      FormBuilderFieldOption(value: 'M', child: Text('Male')),
-                      FormBuilderFieldOption(value: 'F', child: Text('Female')),
-                    ],
-                  ),
-                  SizedBox(height: 15),
-                  FormBuilderCustomField(
-                    attribute: 'name',
-                    validators: [
-                      FormBuilderValidators.required(),
-                    ],
-                    initialValue: 'Argentina',
-                    formField: FormField(
-                      enabled: true,
-                      builder: (FormFieldState<dynamic> field) {
-                        return InputDecorator(
-                          decoration: InputDecoration(
-                            labelText: 'FormBuilderCustomField',
-                            contentPadding: const EdgeInsets.only(
-                              top: 10.0,
-                              bottom: 0.0,
-                            ),
-                            border: InputBorder.none,
-                            errorText: field.errorText,
-                          ),
-                        );
-                      },
-                    ),
-                  ),
                 ],
               ),
             ),
@@ -218,13 +230,32 @@ class _NewPostState extends State<NewPost> {
                       'Submit',
                       style: TextStyle(color: Colors.white),
                     ),
-                    onPressed: () {
-                      // if (_image != null) {
-                      //   print(_image);
-                      // }
+                    onPressed: () async {
                       if (_fbKey.currentState.saveAndValidate()) {
-                        // print(_fbKey.currentState.value);
-                        // print(imageTest);
+                        await DataBase().addNewUserPost(
+                            uid: user.uid,
+                            category: category,
+                            description: description,
+                            firstImage: postImage[0],
+                            location: address,
+                            secondImage: postImage[1],
+                            thirdImage: postImage[2],
+                            timekey: new DateTime.now().toString(),
+                            title: title,
+                            phone: phone.toString(),
+                            rating: rating.toString());
+                        await DataBase().addNewPost(
+                            uid: user.uid,
+                            category: category,
+                            description: description,
+                            firstImage: postImage[0],
+                            location: address,
+                            secondImage: postImage[1],
+                            thirdImage: postImage[2],
+                            timekey: new DateTime.now().toString(),
+                            title: title,
+                            phone: phone.toString(),
+                            rating: rating.toString());
                       } else {
                         print(_fbKey.currentState.value);
                         print('validation failed');
@@ -251,8 +282,16 @@ class _NewPostState extends State<NewPost> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        tooltip: 'Pick Image',
+        onPressed: () {
+          firestoreInstance
+              .collection("post")
+              .getDocuments()
+              .then((querySnapshot) {
+            querySnapshot.documents.forEach((result) {
+              print(result.data);
+            });
+          });
+        },
         child: Icon(Icons.add_a_photo),
       ),
     );

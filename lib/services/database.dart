@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bonCoin/Pages/HomeScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
@@ -36,9 +37,11 @@ class DataBase {
       {String uid,
       String timekey,
       String title,
+      String rating,
       String description,
       String location,
       String category,
+      String phone,
       File firstImage,
       File secondImage,
       File thirdImage}) async {
@@ -66,22 +69,28 @@ class DataBase {
       'description': description,
       'location': location,
       'category': category,
+      'rating': rating,
+      'phone': phone,
       'firstIage': url,
       'secondImage': url2,
       'thirdImage': url3
-    }).then((value) => print(value.documentID));
+    }).then((value) {
+      print(value.documentID);
+    });
   }
 
   Future addNewPost(
-      String uid,
+      {String uid,
       String timekey,
       String title,
+      String rating,
       String description,
       String location,
       String category,
+      String phone,
       File firstImage,
       File secondImage,
-      File thirdImage) async {
+      File thirdImage}) async {
     final StorageReference postImageRef =
         FirebaseStorage.instance.ref().child("Post Images");
 
@@ -105,10 +114,15 @@ class DataBase {
       'title': title,
       'description': description,
       'location': location,
+      'rating': rating,
       'category': category,
+      'phone': phone,
       'firstIage': url,
       'secondImage': url2,
       'thirdImage': url3
-    }).then((value) => print(value.documentID));
+    }).then((value) {
+      print(value.documentID);
+      return new HomeScreen();
+    });
   }
 }

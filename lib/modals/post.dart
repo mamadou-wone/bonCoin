@@ -11,7 +11,9 @@ class Post {
   final File firstImage;
   final File secondImage;
   final File thirdImage;
+  final String phoneNumber;
   final bool isFavorite;
+  final double rating;
 
   Post(
       {@required this.uid,
@@ -23,5 +25,7 @@ class Post {
       this.firstImage,
       this.secondImage,
       this.thirdImage,
-      this.isFavorite});
+      this.phoneNumber,
+      this.isFavorite,
+      this.rating});
 }

@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class PostListData {
   PostListData({
     this.imagePath = '',
@@ -16,14 +18,24 @@ class PostListData {
   double rating;
   int reviews;
   int perNight;
+
+  // final Firestore firestoreInstance = Firestore();
+  //   // firestoreInstance
+  //   //           .collection("post")
+  //   //           .getDocuments()
+  //   //           .then((querySnapshot) {
+  //   //         querySnapshot.documents.forEach((result) {
+  //   //           print(result.data);
+  //   //         });
+  //   //       });
   static List<PostListData> postList = <PostListData>[
     PostListData(
       imagePath: 'assets/hotel/hotel_1.png',
       titleTxt: 'Grand Royal Hotel',
       subTxt: 'Wembley, London',
       dist: 2.0,
-      reviews: 80,
-      rating: 4.4,
+      reviews: 10,
+      rating: 2,
       perNight: 180,
     ),
     PostListData(
