@@ -19,15 +19,7 @@ class PostListData {
   int reviews;
   int perNight;
 
-  // final Firestore firestoreInstance = Firestore();
-  //   // firestoreInstance
-  //   //           .collection("post")
-  //   //           .getDocuments()
-  //   //           .then((querySnapshot) {
-  //   //         querySnapshot.documents.forEach((result) {
-  //   //           print(result.data);
-  //   //         });
-  //   //       });
+  
   static List<PostListData> postList = <PostListData>[
     PostListData(
       imagePath: 'assets/hotel/hotel_1.png',

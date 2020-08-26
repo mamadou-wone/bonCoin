@@ -16,8 +16,8 @@ class Post {
   final double rating;
 
   Post(
-      {@required this.uid,
-      @required this.timekey,
+      {this.uid,
+      this.timekey,
       this.title,
       this.description,
       this.location,
