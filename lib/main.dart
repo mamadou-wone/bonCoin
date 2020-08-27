@@ -13,7 +13,6 @@ import 'package:provider/provider.dart';
 import 'package:splashscreen/splashscreen.dart';
 
 void main() {
-  PostListData().dataResult();
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {
@@ -29,6 +28,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
+    PostListData().dataResult();
     return StreamProvider<User>.value(
       value: AuthService().user,
       child: MaterialApp(

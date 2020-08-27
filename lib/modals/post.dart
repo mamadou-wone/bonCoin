@@ -32,27 +32,27 @@ class Post extends StatelessWidget {
 
   List<Post> postData = <Post>[];
   final Firestore firestoreInstance = Firestore();
-  void getData() async {
-    firestoreInstance.collection("post").getDocuments().then((querySnapshot) {
-      querySnapshot.documents.forEach((result) {
-        postData.add(
-          Post(
-              title: result['title'],
-              description: result['description'],
-              category: result['category'],
-              location: result['location'],
-              rating: result['rating'],
-              firstImage: result['firstImage'],
-              secondImage: result['secondImage'],
-              thirdImage: result['thirdImage']),
-        );
-      });
-    });
-  }
+  // void getData() async {
+  //   firestoreInstance.collection("post").getDocuments().then((querySnapshot) {
+  //     querySnapshot.documents.forEach((result) {
+  //       postData.add(
+  //         Post(
+  //             title: result['title'],
+  //             description: result['description'],
+  //             category: result['category'],
+  //             location: result['location'],
+  //             rating: result['rating'],
+  //             firstImage: result['firstImage'],
+  //             secondImage: result['secondImage'],
+  //             thirdImage: result['thirdImage']),
+  //       );
+  //     });
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
-    getData();
+    // getData();
     return Container();
   }
 }
