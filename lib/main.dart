@@ -1,5 +1,6 @@
 import 'package:bonCoin/Pages/HomeScreen.dart';
 import 'package:bonCoin/Posts/NewPost.dart';
+import 'package:bonCoin/Posts/post/model/post_list_data.dart';
 import 'package:bonCoin/home.dart';
 import 'package:bonCoin/modals/user.dart';
 import 'package:bonCoin/services/auth.dart';
@@ -12,6 +13,7 @@ import 'package:provider/provider.dart';
 import 'package:splashscreen/splashscreen.dart';
 
 void main() {
+  PostListData().dataResult();
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
       .then((_) {

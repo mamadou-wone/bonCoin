@@ -24,8 +24,10 @@ class PostListView extends StatefulWidget {
 
 class _PostListViewState extends State<PostListView> {
   bool isFavorite = false;
+
   @override
   Widget build(BuildContext context) {
+    // PostListData().dataResult();
     Icon icon = Icon(
       Icons.favorite_border,
       color: PostAppTheme.buildLightTheme().primaryColor,

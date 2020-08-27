@@ -122,6 +122,7 @@ class DataBase {
       'thirdImage': url3
     }).then((value) {
       print(value.documentID);
+    }).whenComplete(() {
       return new HomeScreen();
     });
   }

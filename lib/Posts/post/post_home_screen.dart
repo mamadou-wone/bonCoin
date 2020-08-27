@@ -19,6 +19,12 @@ class _PostHomeScreenState extends State<PostHomeScreen>
   DateTime startDate = DateTime.now();
   DateTime endDate = DateTime.now().add(const Duration(days: 5));
 
+  // var testFunction = (() {
+  //   return () {
+
+  //   };
+  // })();
+
   @override
   void initState() {
     animationController = AnimationController(
