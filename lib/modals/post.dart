@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -15,6 +16,7 @@ class Post extends StatelessWidget {
   final String phoneNumber;
   final bool isFavorite;
   final double rating;
+  final VoidCallback onTap;
 
   Post(
       {this.uid,
@@ -28,31 +30,29 @@ class Post extends StatelessWidget {
       this.thirdImage,
       this.phoneNumber,
       this.isFavorite,
-      this.rating});
+      this.rating,
+      this.onTap});
 
-  List<Post> postData = <Post>[];
-  final Firestore firestoreInstance = Firestore();
-  // void getData() async {
-  //   firestoreInstance.collection("post").getDocuments().then((querySnapshot) {
-  //     querySnapshot.documents.forEach((result) {
-  //       postData.add(
-  //         Post(
-  //             title: result['title'],
-  //             description: result['description'],
-  //             category: result['category'],
-  //             location: result['location'],
-  //             rating: result['rating'],
-  //             firstImage: result['firstImage'],
-  //             secondImage: result['secondImage'],
-  //             thirdImage: result['thirdImage']),
-  //       );
-  //     });
-  //   });
-  // }
+  // List<Post> postData = <Post>[];
+  // final Firestore firestoreInstance = Firestore();
 
   @override
   Widget build(BuildContext context) {
-    // getData();
-    return Container();
+    return SizedBox(
+      child: Hero(
+        tag: this.firstImage,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: onTap,
+            child: CachedNetworkImage(
+              imageUrl: this.firstImage,
+              placeholder: (context, url) => CircularProgressIndicator(),
+              errorWidget: (context, url, error) => Icon(Icons.error),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
