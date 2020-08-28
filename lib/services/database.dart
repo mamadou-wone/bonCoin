@@ -46,7 +46,13 @@ class DataBase {
       File secondImage,
       File thirdImage}) async {
     final StorageReference postImageRef =
-        FirebaseStorage.instance.ref().child("Post Images");
+        FirebaseStorage.instance.ref().child("ImagePost1");
+
+    final StorageReference postImageRef2 =
+        FirebaseStorage.instance.ref().child("ImagePost2");
+
+    final StorageReference postImageRef3 =
+        FirebaseStorage.instance.ref().child("ImagePost3");
 
     var timeKey = new DateTime.now();
     final StorageUploadTask uploadTask =
@@ -55,12 +61,12 @@ class DataBase {
     url = imageUrl.toString();
 
     final StorageUploadTask uploadTask2 =
-        postImageRef.child(timeKey.toString() + ' .jpg').putFile(secondImage);
+        postImageRef2.child(timeKey.toString() + ' .jpg').putFile(secondImage);
     var imageUrl2 = await (await uploadTask2.onComplete).ref.getDownloadURL();
     url2 = imageUrl2.toString();
 
     final StorageUploadTask uploadTask3 =
-        postImageRef.child(timeKey.toString() + ' .jpg').putFile(thirdImage);
+        postImageRef3.child(timeKey.toString() + ' .jpg').putFile(thirdImage);
     var imageUrl3 = await (await uploadTask3.onComplete).ref.getDownloadURL();
     url3 = imageUrl3.toString();
     return await postCollection.document(uid).collection('userPosts').add({
@@ -92,7 +98,13 @@ class DataBase {
       File secondImage,
       File thirdImage}) async {
     final StorageReference postImageRef =
-        FirebaseStorage.instance.ref().child("Post Images");
+        FirebaseStorage.instance.ref().child("userImage");
+
+    final StorageReference postImageRef2 =
+        FirebaseStorage.instance.ref().child("userImage2");
+
+    final StorageReference postImageRef3 =
+        FirebaseStorage.instance.ref().child("userImage3");
 
     var timeKey = new DateTime.now();
     final StorageUploadTask uploadTask =
@@ -101,12 +113,12 @@ class DataBase {
     url = imageUrl.toString();
 
     final StorageUploadTask uploadTask2 =
-        postImageRef.child(timeKey.toString() + ' .jpg').putFile(secondImage);
+        postImageRef2.child(timeKey.toString() + ' .jpg').putFile(secondImage);
     var imageUrl2 = await (await uploadTask2.onComplete).ref.getDownloadURL();
     url2 = imageUrl2.toString();
 
     final StorageUploadTask uploadTask3 =
-        postImageRef.child(timeKey.toString() + ' .jpg').putFile(thirdImage);
+        postImageRef3.child(timeKey.toString() + ' .jpg').putFile(thirdImage);
     var imageUrl3 = await (await uploadTask3.onComplete).ref.getDownloadURL();
     url3 = imageUrl3.toString();
     return await postCollection.add({

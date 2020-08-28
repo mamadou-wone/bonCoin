@@ -28,7 +28,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    PostListData().dataResult();
+    // PostListData().dataResult();
     return StreamProvider<User>.value(
       value: AuthService().user,
       child: MaterialApp(
