@@ -38,6 +38,7 @@ class Post extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: Make a beautifull ui
     return SizedBox(
       child: Hero(
         tag: this.firstImage,
