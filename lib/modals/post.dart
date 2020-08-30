@@ -17,7 +17,7 @@ class Post extends StatelessWidget {
   final bool isFavorite;
   final double rating;
   final VoidCallback onTap;
-
+// TODO : Sunday the day for relax
   Post(
       {this.uid,
       this.timekey,
