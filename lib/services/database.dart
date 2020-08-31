@@ -77,7 +77,7 @@ class DataBase {
       'category': category,
       'rating': rating,
       'phone': phone,
-      'firstIage': url,
+      'firstImage': url,
       'secondImage': url2,
       'thirdImage': url3
     }).then((value) {
@@ -129,11 +129,9 @@ class DataBase {
       'rating': rating,
       'category': category,
       'phone': phone,
-      'firstIage': url,
+      'firstImage': url,
       'secondImage': url2,
       'thirdImage': url3
-    }).then((value) {
-      print(value.documentID);
     }).whenComplete(() {
       return new HomeScreen();
     });
