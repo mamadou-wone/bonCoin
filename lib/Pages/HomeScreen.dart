@@ -13,14 +13,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  // TODO : Make The rating start down the image post
   AuthService _auth = AuthService();
-
+  double _screenWidth;
+  double _screenHeight;
   @override
   Widget build(BuildContext context) {
+    _screenWidth = MediaQuery.of(context).size.width;
+    _screenHeight = MediaQuery.of(context).size.height;
     final user = Provider.of<User>(context);
     return Scaffold(
       body: StreamBuilder<QuerySnapshot>(
-        stream: Firestore.instance.collection('post').snapshots(),
+        stream: Firestore.instance
+            .collection('post')
+            .orderBy('timeKey', descending: true)
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.data == null) return CircularProgressIndicator();
           return ListView.builder(
@@ -28,8 +35,14 @@ class _HomeScreenState extends State<HomeScreen> {
             itemBuilder: (context, index) {
               DocumentSnapshot post = snapshot.data.documents[index];
               return DetailPage(
+                title: post['title'],
+                description: post['description'],
+                category: post['category'],
+                screenHeight: 300,
+                screenWidth: _screenWidth,
                 photo: post['firstImage'],
                 width: 50.0,
+                rating: double.parse(post['rating']),
                 onTap: () {
                   Navigator.of(context).push(
                       MaterialPageRoute<void>(builder: (BuildContext context) {
@@ -47,8 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             backgroundColor: Colors.grey[100],
                             expandedHeight: 300,
                             flexibleSpace: FlexibleSpaceBar(
-                              background: Hero(
-                                tag: post['firstImage'],
+                              background: Container(
+                                // tag: post['firstImage'],
                                 child: CarouselSlider.builder(
                                   itemCount: images.length,
                                   options: CarouselOptions(
