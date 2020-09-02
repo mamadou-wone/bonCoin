@@ -79,14 +79,14 @@ class DetailPage extends StatelessWidget {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
-                                        Text(
-                                          title,
-                                          textAlign: TextAlign.left,
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w600,
-                                            fontSize: 22,
-                                          ),
-                                        ),
+                                        // Text(
+                                        //   title,
+                                        //   textAlign: TextAlign.left,
+                                        //   style: TextStyle(
+                                        //     fontWeight: FontWeight.w600,
+                                        //     fontSize: 22,
+                                        //   ),
+                                        // ),
                                         Row(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
