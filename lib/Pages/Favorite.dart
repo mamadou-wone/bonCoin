@@ -1,7 +1,10 @@
 import 'package:bonCoin/Posts/post/model/post_list_data.dart';
 import 'package:bonCoin/modals/post.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:getwidget/components/carousel/gf_carousel.dart';
+import 'package:getwidget/components/carousel/gf_items_carousel.dart';
 
 class Favorite extends StatefulWidget {
   @override
@@ -12,6 +15,13 @@ class _FavoriteState extends State<Favorite> {
   final Firestore firestoreInstance = Firestore();
   List<Post> post = <Post>[];
   List<String> test = [];
+
+  final List<String> imageList = [
+    "https://cdn.pixabay.com/photo/2017/12/03/18/04/christmas-balls-2995437_960_720.jpg",
+    "https://cdn.pixabay.com/photo/2017/12/03/18/04/christmas-balls-2995437_960_720.jpg",
+    "https://cdn.pixabay.com/photo/2017/12/03/18/04/christmas-balls-2995437_960_720.jpg",
+    "https://cdn.pixabay.com/photo/2017/12/03/18/04/christmas-balls-2995437_960_720.jpg"
+  ];
 
   void testData() {
     firestoreInstance.collection("post").getDocuments().then((querySnapshot) {
@@ -38,11 +48,23 @@ class _FavoriteState extends State<Favorite> {
     // testData();
     return Scaffold(
       body: Center(
-        child: FlatButton(
-          onPressed: () {
-            print('tap');
-          },
-          child: Text('tap'),
+        child: GFItemsCarousel(
+          rowCount: 3,
+          children: imageList.map(
+            (url) {
+              return Container(
+                margin: EdgeInsets.all(5.0),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                  child: CachedNetworkImage(
+                    imageUrl: url,
+                    fit: BoxFit.cover,
+                    width: 1000.0,
+                  ),
+                ),
+              );
+            },
+          ).toList(),
         ),
       ),
     );

@@ -13,7 +13,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // TODO : Make The rating start down the image post
+  // TODO :Put the rating below the image post
+
   AuthService _auth = AuthService();
   double _screenWidth;
   double _screenHeight;
