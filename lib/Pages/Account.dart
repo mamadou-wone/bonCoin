@@ -49,7 +49,10 @@ class _AccountState extends State<Account> {
               DocumentSnapshot post = snapshot.data.documents[index];
               return DetailPage(
                 photo: post['firstImage'],
-                width: 50.0,
+                rating: double.parse(post['rating']),
+                title: post['title'],
+                category: post['category'],
+                description: post['description'],
                 onTap: () {
                   Navigator.of(context).push(
                       MaterialPageRoute<void>(builder: (BuildContext context) {
@@ -67,24 +70,21 @@ class _AccountState extends State<Account> {
                             backgroundColor: Colors.grey[100],
                             expandedHeight: 300,
                             flexibleSpace: FlexibleSpaceBar(
-                              background: Hero(
-                                tag: post['firstImage'],
-                                child: CarouselSlider.builder(
-                                  itemCount: images.length,
-                                  options: CarouselOptions(
-                                    autoPlay: true,
-                                    enlargeCenterPage: true,
-                                    aspectRatio: 16 / 9,
-                                    height: 300,
-                                  ),
-                                  itemBuilder: (context, index) {
-                                    return CachedNetworkImage(
-                                      imageUrl: images[index],
-                                      fit: BoxFit.cover,
-                                      width: 1100.0,
-                                    );
-                                  },
+                              background: CarouselSlider.builder(
+                                itemCount: images.length,
+                                options: CarouselOptions(
+                                  autoPlay: true,
+                                  enlargeCenterPage: true,
+                                  aspectRatio: 16 / 9,
+                                  height: 300,
                                 ),
+                                itemBuilder: (context, index) {
+                                  return CachedNetworkImage(
+                                    imageUrl: images[index],
+                                    fit: BoxFit.cover,
+                                    width: 1100.0,
+                                  );
+                                },
                               ),
                             ),
                           ),

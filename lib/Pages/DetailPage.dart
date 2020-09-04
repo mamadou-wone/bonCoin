@@ -1,9 +1,10 @@
 import 'package:bonCoin/Posts/post/post_app_theme.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
-class DetailPage extends StatelessWidget {
+class DetailPage extends StatefulWidget {
   const DetailPage(
       {Key key,
       this.photo,
@@ -27,14 +28,24 @@ class DetailPage extends StatelessWidget {
   final double screenWidth;
   final double screenHeight;
 
+  @override
+  _DetailPageState createState() => _DetailPageState();
+}
+
+class _DetailPageState extends State<DetailPage> {
+  bool isfavirite = false;
   Widget build(BuildContext context) {
+    Icon favoriteIcon = Icon(LineIcons.heart_o,
+        color: PostAppTheme.buildLightTheme().primaryColor);
+    Icon heartIcon = Icon(LineIcons.heart,
+        color: PostAppTheme.buildLightTheme().primaryColor);
     return Container(
       child: Hero(
-        tag: photo,
+        tag: widget.photo,
         child: Material(
           color: Colors.transparent,
           child: InkWell(
-            onTap: onTap,
+            onTap: widget.onTap,
             child: Column(
               children: [
                 SizedBox(
@@ -58,7 +69,7 @@ class DetailPage extends StatelessWidget {
                         AspectRatio(
                           aspectRatio: 0.7,
                           child: CachedNetworkImage(
-                            imageUrl: photo,
+                            imageUrl: widget.photo,
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -80,7 +91,7 @@ class DetailPage extends StatelessWidget {
                                           CrossAxisAlignment.start,
                                       children: <Widget>[
                                         Text(
-                                          title,
+                                          widget.title,
                                           textAlign: TextAlign.left,
                                           style: TextStyle(
                                             fontWeight: FontWeight.w600,
@@ -94,7 +105,7 @@ class DetailPage extends StatelessWidget {
                                               MainAxisAlignment.start,
                                           children: <Widget>[
                                             Text(
-                                              category,
+                                              widget.category,
                                               style: TextStyle(
                                                   fontSize: 14,
                                                   color: Colors.grey
@@ -105,7 +116,7 @@ class DetailPage extends StatelessWidget {
                                             ),
                                             Expanded(
                                               child: Text(
-                                                description,
+                                                widget.description,
                                                 overflow: TextOverflow.ellipsis,
                                                 style: TextStyle(
                                                     fontSize: 14,
@@ -123,7 +134,7 @@ class DetailPage extends StatelessWidget {
                                               SmoothStarRating(
                                                 allowHalfRating: true,
                                                 starCount: 5,
-                                                rating: rating,
+                                                rating: widget.rating,
                                                 size: 20,
                                                 color: PostAppTheme
                                                         .buildLightTheme()
@@ -162,11 +173,19 @@ class DetailPage extends StatelessWidget {
                               ),
                               onTap: () {},
                               child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Icon(
-                                    Icons.favorite,
-                                    color: Colors.red,
-                                  )),
+                                padding: const EdgeInsets.all(8.0),
+                                child: GestureDetector(
+                                  child: isfavirite ? heartIcon : favoriteIcon,
+                                  onTap: () {
+                                    setState(() {
+                                      isfavirite = !isfavirite;
+                                    });
+                                    // if (isfavirite) {
+                                    //   print(widget.title);
+                                    // }
+                                  },
+                                ),
+                              ),
                             ),
                           ),
                         ),

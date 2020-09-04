@@ -281,19 +281,6 @@ class _NewPostState extends State<NewPost> {
           ],
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          firestoreInstance
-              .collection("post")
-              .getDocuments()
-              .then((querySnapshot) {
-            querySnapshot.documents.forEach((result) {
-              print(result.data);
-            });
-          });
-        },
-        child: Icon(Icons.add_a_photo),
-      ),
     );
   }
 }
