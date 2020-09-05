@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/carousel/gf_carousel.dart';
 import 'package:getwidget/components/carousel/gf_items_carousel.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class Favorite extends StatefulWidget {
   @override
@@ -48,23 +49,11 @@ class _FavoriteState extends State<Favorite> {
     // testData();
     return Scaffold(
       body: Center(
-        child: GFItemsCarousel(
-          rowCount: 3,
-          children: imageList.map(
-            (url) {
-              return Container(
-                margin: EdgeInsets.all(5.0),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                  child: CachedNetworkImage(
-                    imageUrl: url,
-                    fit: BoxFit.cover,
-                    width: 1000.0,
-                  ),
-                ),
-              );
-            },
-          ).toList(),
+        child: FlatButton(
+          child: Text('tap'),
+          onPressed: () {
+            return Alert(context: context, title: 'null').show();
+          },
         ),
       ),
     );
