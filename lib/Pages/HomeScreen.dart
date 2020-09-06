@@ -16,6 +16,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   // TODO :Put the rating below the image post
+  // SUNDAY 06/09/2020
 
   AuthService _auth = AuthService();
   double _screenWidth;
