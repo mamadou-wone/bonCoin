@@ -27,7 +27,7 @@ class _NewPostState extends State<NewPost> {
     'Restaurant',
     'Technologie',
     'Piscine',
-    'Parc Cuturel',
+    'Parc Culturel',
   ];
   // final _ageController = TextEditingController(text: '45');
   // bool _ageHasError = false;

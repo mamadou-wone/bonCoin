@@ -1,4 +1,5 @@
 import 'package:bonCoin/Pages/DetailPage.dart';
+import 'package:bonCoin/modals/post.dart';
 import 'package:bonCoin/modals/user.dart';
 import 'package:bonCoin/services/auth.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -39,14 +40,11 @@ class _HomeScreenState extends State<HomeScreen> {
             itemCount: snapshot.data.documents.length,
             itemBuilder: (context, index) {
               DocumentSnapshot post = snapshot.data.documents[index];
-              return DetailPage(
+              return Post(
                 title: post['title'],
-                description: post['description'],
+                firstImage: post['firstImage'],
                 category: post['category'],
-                screenHeight: 300,
-                screenWidth: _screenWidth,
-                photo: post['firstImage'],
-                width: 50.0,
+                // secondImage: post['secondImage'],
                 rating: double.parse(post['rating']),
                 onTap: () {
                   Navigator.of(context).push(
@@ -60,107 +58,115 @@ class _HomeScreenState extends State<HomeScreen> {
                         final GlobalKey _cKey = GlobalKey();
                         return Scaffold(
                           backgroundColor: Colors.white,
-                          body: CustomScrollView(
-                            slivers: <Widget>[
-                              SliverAppBar(
-                                elevation: 0.0,
-                                centerTitle: true,
-                                backgroundColor: Colors.indigo[900],
-                                title: Text(
-                                  'bonCoin',
-                                  style: TextStyle(
-                                      fontSize: 25.0,
-                                      fontWeight: FontWeight.bold),
+                          body: Hero(
+                            tag: post['title'],
+                            child: CustomScrollView(
+                              slivers: <Widget>[
+                                SliverAppBar(
+                                  elevation: 0.0,
+                                  centerTitle: true,
+                                  backgroundColor: Colors.indigo[900],
+                                  title: Text(
+                                    'bonCoin',
+                                    style: TextStyle(
+                                        fontSize: 25.0,
+                                        fontWeight: FontWeight.bold),
+                                  ),
                                 ),
-                              ),
-                              SliverAppBar(
-                                automaticallyImplyLeading: false,
-                                elevation: 10.0,
-                                backgroundColor: Colors.grey[100],
-                                expandedHeight: 200,
-                                flexibleSpace: FlexibleSpaceBar(
-                                  background: Container(
-                                    // tag: post['firstImage'],
-                                    child: GFCarousel(
-                                      autoPlay: true,
-                                      autoPlayCurve: Curves.linearToEaseOut,
-                                      aspectRatio: 16 / 9,
-                                      items: images.map(
-                                        (url) {
-                                          return Container(
-                                            margin: EdgeInsets.all(8.0),
-                                            child: ClipRRect(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(5.0)),
-                                              child: GestureDetector(
-                                                child: CachedNetworkImage(
-                                                  imageUrl: url,
-                                                  fit: BoxFit.cover,
-                                                  width: 1000.0,
-                                                  height: 3000.0,
-                                                ),
-                                                onTap: () {
-                                                  Alert(
-                                                    context: context,
-                                                    style: AlertStyle(
-                                                      isCloseButton: true,
-                                                    ),
-                                                    title: post['title'],
-                                                    content: Container(
-                                                      margin:
-                                                          EdgeInsets.all(8.0),
-                                                      child: ClipRRect(
-                                                        borderRadius:
-                                                            BorderRadius.all(
-                                                          Radius.circular(25.0),
-                                                        ),
-                                                        child: CarouselSlider
-                                                            .builder(
-                                                          itemCount:
-                                                              images.length,
-                                                          options:
-                                                              CarouselOptions(
-                                                            autoPlay: true,
-                                                            enlargeCenterPage:
-                                                                true,
-                                                            aspectRatio: 16 / 9,
-                                                            height: 300,
+                                SliverAppBar(
+                                  automaticallyImplyLeading: false,
+                                  elevation: 10.0,
+                                  backgroundColor: Colors.grey[100],
+                                  expandedHeight: 200,
+                                  flexibleSpace: FlexibleSpaceBar(
+                                    background: Container(
+                                      // tag: post['firstImage'],
+                                      child: GFCarousel(
+                                        autoPlay: true,
+                                        autoPlayCurve: Curves.linearToEaseOut,
+                                        aspectRatio: 16 / 9,
+                                        items: images.map(
+                                          (url) {
+                                            return Container(
+                                              margin: EdgeInsets.all(8.0),
+                                              child: ClipRRect(
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(5.0)),
+                                                child: GestureDetector(
+                                                  child: CachedNetworkImage(
+                                                    imageUrl: url,
+                                                    fit: BoxFit.cover,
+                                                    width: 1000.0,
+                                                    height: 3000.0,
+                                                  ),
+                                                  onTap: () {
+                                                    Alert(
+                                                      context: context,
+                                                      style: AlertStyle(
+                                                        isCloseButton: true,
+                                                      ),
+                                                      title: post['title'],
+                                                      content: Container(
+                                                        margin:
+                                                            EdgeInsets.all(8.0),
+                                                        child: ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                            Radius.circular(
+                                                                25.0),
                                                           ),
-                                                          itemBuilder:
-                                                              (context, index) {
-                                                            return CachedNetworkImage(
-                                                              imageUrl:
-                                                                  images[index],
-                                                              fit: BoxFit.cover,
-                                                              width: 1100.0,
-                                                            );
-                                                          },
+                                                          child: CarouselSlider
+                                                              .builder(
+                                                            itemCount:
+                                                                images.length,
+                                                            options:
+                                                                CarouselOptions(
+                                                              autoPlay: true,
+                                                              enlargeCenterPage:
+                                                                  true,
+                                                              aspectRatio:
+                                                                  16 / 9,
+                                                              height: 300,
+                                                            ),
+                                                            itemBuilder:
+                                                                (context,
+                                                                    index) {
+                                                              return CachedNetworkImage(
+                                                                imageUrl:
+                                                                    images[
+                                                                        index],
+                                                                fit: BoxFit
+                                                                    .cover,
+                                                                width: 1100.0,
+                                                              );
+                                                            },
+                                                          ),
                                                         ),
                                                       ),
-                                                    ),
-                                                  ).show();
-                                                },
+                                                    ).show();
+                                                  },
+                                                ),
                                               ),
-                                            ),
-                                          );
-                                        },
-                                      ).toList(),
+                                            );
+                                          },
+                                        ).toList(),
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              SliverAppBar(
-                                automaticallyImplyLeading: false,
-                                elevation: 10.0,
-                                backgroundColor: Colors.white,
-                                expandedHeight: 200,
-                                flexibleSpace: FlexibleSpaceBar(
-                                  background: Column(
-                                    children: [],
+                                SliverAppBar(
+                                  automaticallyImplyLeading: false,
+                                  elevation: 10.0,
+                                  backgroundColor: Colors.white,
+                                  expandedHeight: 200,
+                                  flexibleSpace: FlexibleSpaceBar(
+                                    background: Column(
+                                      children: [],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         );
                       },
