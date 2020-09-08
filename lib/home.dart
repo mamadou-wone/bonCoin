@@ -3,6 +3,7 @@ import 'package:bonCoin/Pages/Favorite.dart';
 import 'package:bonCoin/Pages/mapScreen.dart';
 import 'package:bonCoin/Posts/NewPost.dart';
 import 'package:bonCoin/settings/settingScreen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:line_icons/line_icons.dart';
@@ -12,6 +13,8 @@ import 'Pages/HomeScreen.dart';
 import 'modals/user.dart';
 
 class Home extends StatefulWidget {
+  final FirebaseUser user;
+  Home({this.user});
   @override
   _HomeState createState() => _HomeState();
 }

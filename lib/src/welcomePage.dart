@@ -2,9 +2,12 @@ import 'package:bonCoin/services/auth.dart';
 import 'package:bonCoin/src/loginPage.dart';
 import 'package:bonCoin/src/signup.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_login_facebook/flutter_login_facebook.dart';
 // import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:line_icons/line_icons.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class WelcomePage extends StatefulWidget {
   WelcomePage({Key key, this.title}) : super(key: key);
@@ -19,6 +22,7 @@ class _WelcomePageState extends State<WelcomePage> {
   FacebookLogin facebookLogin = new FacebookLogin();
   AuthService _auth = AuthService();
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
   Widget _googleButton() {
     return GestureDetector(
       child: Container(
@@ -114,6 +118,7 @@ class _WelcomePageState extends State<WelcomePage> {
   }
 
   Widget _facebookButton() {
+    String phone;
     return GestureDetector(
       child: Container(
         height: 50,
@@ -133,11 +138,10 @@ class _WelcomePageState extends State<WelcomePage> {
                       topLeft: Radius.circular(5)),
                 ),
                 alignment: Alignment.center,
-                child: Text('f',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 25,
-                        fontWeight: FontWeight.w400)),
+                child: Icon(
+                  LineIcons.phone,
+                  color: Colors.white,
+                ),
               ),
             ),
             Expanded(
@@ -150,7 +154,7 @@ class _WelcomePageState extends State<WelcomePage> {
                       topRight: Radius.circular(5)),
                 ),
                 alignment: Alignment.center,
-                child: Text('Continuer avec Facebook',
+                child: Text('S\'inscrire avec un numéro',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -160,16 +164,78 @@ class _WelcomePageState extends State<WelcomePage> {
           ],
         ),
       ),
-      onTap: () async {
-        _onLoading();
-        dynamic result = await AuthService().loginWithFacebook();
-        if (result == null) {
-          setState(() {
-            widget.error = 'Impossible de se connecter avec ces identifiants';
-          });
-        } else {
-          // Navigator.of(context).pushReplacementNamed('/home');
-        }
+      onTap: () {
+        Alert(
+          context: context,
+          buttons: [
+            DialogButton(
+              child: Text(
+                "Valider",
+                style: TextStyle(color: Colors.white, fontSize: 20),
+              ),
+              onPressed: () async {
+                if (_fbKey.currentState.saveAndValidate()) {
+                  await AuthService().loginWithPhoneNumber(phone, context);
+                  // print(_fbKey.currentState.value);
+                  // print(phone);
+                } else {
+                  print(_fbKey.currentState.value);
+                  print('validation failed');
+                }
+              },
+              width: 120,
+            )
+          ],
+          title: 'Test',
+          content: FormBuilder(
+            key: _fbKey,
+            readOnly: false,
+            child: Column(
+              children: [
+                FormBuilderPhoneField(
+                  defaultSelectedCountryIsoCode: 'SN',
+                  attribute: 'phone_number',
+                  // defaultSelectedCountryIsoCode: 'KE',
+                  cursorColor: Colors.black,
+                  // style: TextStyle(color: Colors.black, fontSize: 18),
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    labelText: 'Téléphone',
+                  ),
+                  onSaved: (val) {
+                    setState(() {
+                      phone = val;
+                    });
+                  },
+                  priorityListByIsoCode: ['SN'],
+                  validators: [
+                    FormBuilderValidators.numeric(errorText: 'Numéro invalide'),
+                    FormBuilderValidators.required(
+                        errorText: 'Ce champ est obligatoire')
+                  ],
+                ),
+                // SizedBox(
+                //   height: 10.0,
+                // ),
+                // MaterialButton(
+                //   color: Theme.of(context).accentColor,
+                //   child: Text(
+                //     'Submit',
+                //     style: TextStyle(color: Colors.white),
+                //   ),
+                //   onPressed: () {
+                //     if (_fbKey.currentState.saveAndValidate()) {
+                //       print(_fbKey.currentState.value);
+                //     } else {
+                //       print(_fbKey.currentState.value);
+                //       print('validation failed');
+                //     }
+                //   },
+                // ),
+              ],
+            ),
+          ),
+        ).show();
       },
     );
   }
@@ -251,6 +317,12 @@ class _WelcomePageState extends State<WelcomePage> {
               SizedBox(
                 height: 50,
               ),
+              // FlatButton(
+              //     onPressed: () {
+              //       Alert(context: context, title: 'null', type: AlertType.info)
+              //           .show();
+              //     },
+              //     child: Text('tap')),
               Text(
                 widget.error,
                 style: TextStyle(color: Colors.red, fontSize: 14.0),

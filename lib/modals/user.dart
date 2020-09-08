@@ -3,5 +3,6 @@ class User {
   final String email;
   final String name;
   final String pictureUrl;
-  User({this.uid, this.email, this.name, this.pictureUrl});
+  final String phone;
+  User({this.uid, this.email, this.name, this.pictureUrl, this.phone});
 }

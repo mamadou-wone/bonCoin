@@ -4,6 +4,7 @@ import 'package:bonCoin/Pages/Account.dart';
 import 'package:bonCoin/modals/user.dart';
 import 'package:bonCoin/services/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:settings_ui/settings_ui.dart';
@@ -87,9 +88,11 @@ class _SettingScreenState extends State<SettingScreen> {
                 },
               ),
               SettingsTile(
-                title: 'Email',
-                leading: Icon(Icons.email),
-                subtitle: user != null ? user.email : null,
+                title: user.email != null ? 'Email' : 'Phone Number',
+                leading: user.email != null
+                    ? Icon(Icons.email)
+                    : Icon(LineIcons.phone),
+                subtitle: user != null ? user.email ?? user.phone : null,
               ),
               SettingsTile(
                 title: 'Déconnexion',
