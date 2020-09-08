@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:getwidget/components/carousel/gf_carousel.dart';
 import 'package:getwidget/components/carousel/gf_items_carousel.dart';
+import 'package:line_icons/line_icons.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class Favorite extends StatefulWidget {
@@ -49,11 +50,22 @@ class _FavoriteState extends State<Favorite> {
     // testData();
     return Scaffold(
       body: Center(
-        child: FlatButton(
-          child: Text('tap'),
-          onPressed: () {
-            return Alert(context: context, title: 'null').show();
-          },
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              LineIcons.smile_o,
+              color: Colors.grey.withOpacity(0.8),
+              size: 100.0,
+            ),
+            Text(
+              'Aucun Favorie',
+              style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 22,
+                  color: Colors.grey.withOpacity(0.8)),
+            ),
+          ],
         ),
       ),
     );

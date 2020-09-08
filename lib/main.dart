@@ -60,7 +60,7 @@ class _MyAppState extends State<MyApp> {
                 break;
               case "/home":
                 return PageTransition(
-                    child: Home(), type: PageTransitionType.fade);
+                    child: Home(), type: PageTransitionType.rightToLeft);
                 break;
               case "/post":
                 return PageTransition(

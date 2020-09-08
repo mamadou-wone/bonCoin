@@ -71,206 +71,107 @@ getIcon(String category) {
 }
 
 class _PostState extends State<Post> {
-  Widget getSearchBarUI() {
-    String textSherch;
-    // final GlobalKey<FormBuilderState> _fbKey = GlobalKey<FormBuilderState>();
-    final _txKey = GlobalKey<FormState>();
-    return Padding(
-      padding: const EdgeInsets.only(left: 16, right: 16, top: 8, bottom: 8),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(right: 16, top: 8, bottom: 8),
-              child: Container(
-                decoration: BoxDecoration(
-                  color: PostAppTheme.buildLightTheme().backgroundColor,
-                  borderRadius: const BorderRadius.all(
-                    Radius.circular(38.0),
-                  ),
-                  boxShadow: <BoxShadow>[
-                    BoxShadow(
-                        color: Colors.grey.withOpacity(0.2),
-                        offset: const Offset(0, 2),
-                        blurRadius: 8.0),
-                  ],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.only(
-                      left: 16, right: 16, top: 4, bottom: 4),
-                  child: TextFormField(
-                    key: _txKey,
-                    onChanged: (String txt) {
-                      print(txt);
-                      setState(() {
-                        textSherch = txt;
-                      });
-                    },
-                    // onSubmitted: (value) {
-                    //   // setState(() {
-                    //   //   textSherch = value;
-                    //   // });
-                    // },
-                    style: const TextStyle(
-                      fontSize: 18,
-                    ),
-                    cursorColor: PostAppTheme.buildLightTheme().primaryColor,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'Plage...',
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              color: PostAppTheme.buildLightTheme().primaryColor,
-              borderRadius: const BorderRadius.all(
-                Radius.circular(38.0),
-              ),
-              boxShadow: <BoxShadow>[
-                BoxShadow(
-                    color: Colors.grey.withOpacity(0.4),
-                    offset: const Offset(0, 2),
-                    blurRadius: 8.0),
-              ],
-            ),
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(32.0),
-                ),
-                onTap: () {
-                  if (_txKey.currentState.validate()) {
-                    print(textSherch);
-                  }
-                  // FocusScope.of(context).requestFocus(FocusNode());
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Icon(FontAwesomeIcons.search,
-                      size: 20,
-                      color: PostAppTheme.buildLightTheme().backgroundColor),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     // getSearchBarUI();
     // TODO: Make a beautifull ui
-    return Column(
-      children: <Widget>[
-        getSearchBarUI(),
-        SizedBox(
-          child: Hero(
-            tag: this.widget.firstImage,
-            child: Material(
-              color: Colors.transparent,
-              child: InkWell(
-                onTap: widget.onTap,
-                child: GFCard(
-                  boxFit: BoxFit.cover,
-                  title: GFListTile(
-                    subTitle: Row(
-                      children: [
-                        Text(
-                          widget.category,
-                          style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey.withOpacity(0.8)),
-                        ),
-                        SizedBox(
-                          width: 15.0,
-                        ),
-                        getIcon(widget.category),
-                      ],
-                    ),
-                    title: Text(
-                      widget.title,
-                      textAlign: TextAlign.left,
+    return SizedBox(
+      child: Hero(
+        tag: this.widget.firstImage,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: widget.onTap,
+            child: GFCard(
+              boxFit: BoxFit.cover,
+              title: GFListTile(
+                subTitle: Row(
+                  children: [
+                    Text(
+                      widget.category,
                       style: TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: 22,
-                      ),
+                          fontSize: 14, color: Colors.grey.withOpacity(0.8)),
                     ),
-                  ),
-                  elevation: 1.0,
-                  content: ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                    child: Stack(
-                      children: [
-                        AspectRatio(
-                          aspectRatio: 0.7,
-                          child: CachedNetworkImage(
-                            imageUrl: widget.firstImage,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        Positioned(
-                          top: 8,
-                          right: 8,
-                          child: Material(
-                            color: Colors.transparent,
-                            child: InkWell(
-                              borderRadius: const BorderRadius.all(
-                                Radius.circular(32.0),
-                              ),
-                              onTap: () {},
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Icon(LineIcons.heart_o,
-                                    color: PostAppTheme.buildLightTheme()
-                                        .primaryColor),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
+                    SizedBox(
+                      width: 15.0,
                     ),
-                  ),
-                  buttonBar: GFButtonBar(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 4),
-                        child: Row(
-                          children: <Widget>[
-                            SmoothStarRating(
-                              allowHalfRating: true,
-                              starCount: 5,
-                              rating: widget.rating,
-                              size: 20,
-                              color:
-                                  PostAppTheme.buildLightTheme().primaryColor,
-                              borderColor:
-                                  PostAppTheme.buildLightTheme().primaryColor,
-                            ),
-                            Text(
-                              ' Note',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.grey.withOpacity(0.8),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+                    getIcon(widget.category),
+                  ],
+                ),
+                title: Text(
+                  widget.title,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 22,
                   ),
                 ),
+              ),
+              elevation: 1.0,
+              content: ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                child: Stack(
+                  children: [
+                    AspectRatio(
+                      aspectRatio: 0.7,
+                      child: CachedNetworkImage(
+                        imageUrl: widget.firstImage,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Positioned(
+                      top: 8,
+                      right: 8,
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(32.0),
+                          ),
+                          onTap: () {},
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(LineIcons.heart_o,
+                                color: PostAppTheme.buildLightTheme()
+                                    .primaryColor),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              buttonBar: GFButtonBar(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: Row(
+                      children: <Widget>[
+                        SmoothStarRating(
+                          allowHalfRating: true,
+                          starCount: 5,
+                          rating: widget.rating,
+                          size: 20,
+                          color: PostAppTheme.buildLightTheme().primaryColor,
+                          borderColor:
+                              PostAppTheme.buildLightTheme().primaryColor,
+                        ),
+                        Text(
+                          ' Note',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey.withOpacity(0.8),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
         ),
-      ],
+      ),
     );
   }
 }

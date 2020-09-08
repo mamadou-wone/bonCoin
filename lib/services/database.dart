@@ -133,7 +133,7 @@ class DataBase {
       'secondImage': url2,
       'thirdImage': url3
     }).whenComplete(() {
-      return new HomeScreen();
+      // return new HomeScreen();
     });
   }
 }

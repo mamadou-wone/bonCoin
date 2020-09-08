@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:bonCoin/Pages/HomeScreen.dart';
+import 'package:bonCoin/home.dart';
 import 'package:bonCoin/modals/user.dart';
 import 'package:bonCoin/services/database.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -227,7 +229,7 @@ class _NewPostState extends State<NewPost> {
                   child: MaterialButton(
                     color: Theme.of(context).accentColor,
                     child: Text(
-                      'Submit',
+                      'Publier',
                       style: TextStyle(color: Colors.white),
                     ),
                     onPressed: () async {
@@ -244,18 +246,28 @@ class _NewPostState extends State<NewPost> {
                             title: title,
                             phone: phone.toString(),
                             rating: rating.toString());
-                        await DataBase().addNewPost(
-                            uid: user.uid,
-                            category: category,
-                            description: description,
-                            firstImage: postImage[0],
-                            location: address,
-                            secondImage: postImage[1],
-                            thirdImage: postImage[2],
-                            timekey: new DateTime.now().toString(),
-                            title: title,
-                            phone: phone.toString(),
-                            rating: rating.toString());
+                        await DataBase()
+                            .addNewPost(
+                                uid: user.uid,
+                                category: category,
+                                description: description,
+                                firstImage: postImage[0],
+                                location: address,
+                                secondImage: postImage[1],
+                                thirdImage: postImage[2],
+                                timekey: new DateTime.now().toString(),
+                                title: title,
+                                phone: phone.toString(),
+                                rating: rating.toString())
+                            .whenComplete(() {
+                          Navigator.pushReplacementNamed(context, '/home');
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(builder: (context) {
+                          //     return new Home();
+                          //   }),
+                          // );
+                        });
                       } else {
                         print(_fbKey.currentState.value);
                         print('validation failed');
@@ -263,19 +275,19 @@ class _NewPostState extends State<NewPost> {
                     },
                   ),
                 ),
-                SizedBox(width: 20),
-                Expanded(
-                  child: MaterialButton(
-                    color: Theme.of(context).accentColor,
-                    child: Text(
-                      'Reset',
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    onPressed: () {
-                      _fbKey.currentState.reset();
-                    },
-                  ),
-                ),
+                // SizedBox(width: 20),
+                // Expanded(
+                //   child: MaterialButton(
+                //     color: Theme.of(context).accentColor,
+                //     child: Text(
+                //       'Reset',
+                //       style: TextStyle(color: Colors.white),
+                //     ),
+                //     onPressed: () {
+                //       _fbKey.currentState.reset();
+                //     },
+                //   ),
+                // ),
               ],
             ),
           ],

@@ -58,17 +58,7 @@ class _HomeState extends State<Home> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
-        // actions: <Widget>[
-        //   IconButton(
-        //       icon: Icon(Icons.settings),
-        //       onPressed: () {
-        //         Navigator.of(context).push(
-        //           MaterialPageRoute(
-        //             builder: (context) => SettingScreen(),
-        //           ),
-        //         );
-        //       }),
-        // ],
+        automaticallyImplyLeading: false,
         centerTitle: true,
         backgroundColor: Colors.indigo[900],
         title: Text(
