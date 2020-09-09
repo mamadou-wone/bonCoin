@@ -1,9 +1,12 @@
 import 'package:bonCoin/Pages/DetailPage.dart';
+import 'package:bonCoin/home.dart';
 import 'package:bonCoin/modals/user.dart';
 import 'package:bonCoin/services/auth.dart';
+import 'package:bonCoin/services/database.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -35,11 +38,20 @@ class _AccountState extends State<Account> {
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0.0,
+        automaticallyImplyLeading: true,
+        centerTitle: true,
+        backgroundColor: Colors.indigo[900],
+        title: Text(
+          'bonCoin',
+          style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
+        ),
+      ),
       body: StreamBuilder<QuerySnapshot>(
         stream: Firestore.instance
             .collection('post')
-            .document(user.uid)
-            .collection('userPosts')
+            .where('uid', isEqualTo: user.uid)
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.data == null) return CircularProgressIndicator();
@@ -84,6 +96,28 @@ class _AccountState extends State<Account> {
                                     fit: BoxFit.cover,
                                     width: 1100.0,
                                   );
+                                },
+                              ),
+                            ),
+                          ),
+                          SliverAppBar(
+                            elevation: 10.0,
+                            backgroundColor: Colors.grey[100],
+                            expandedHeight: 300,
+                            flexibleSpace: FlexibleSpaceBar(
+                              background: FlatButton(
+                                child: Text('delete'),
+                                onPressed: () async {
+                                  var firebaseUser =
+                                      await FirebaseAuth.instance.currentUser();
+                                  DataBase()
+                                      .deletePost(firebaseUser.uid)
+                                      .whenComplete(() {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => Home()));
+                                  });
                                 },
                               ),
                             ),

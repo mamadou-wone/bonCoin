@@ -87,13 +87,15 @@ class _SettingScreenState extends State<SettingScreen> {
                   );
                 },
               ),
-              SettingsTile(
-                title: user.email != null ? 'Email' : 'Phone Number',
-                leading: user.email != null
-                    ? Icon(Icons.email)
-                    : Icon(LineIcons.phone),
-                subtitle: user != null ? user.email ?? user.phone : null,
-              ),
+              user.email != null
+                  ? SettingsTile(
+                      title: user.email != null ? 'Email' : 'Phone Number',
+                      leading: user.email != null
+                          ? Icon(Icons.email)
+                          : Icon(LineIcons.phone),
+                      subtitle: user.email != null ? user.email : user.phone,
+                    )
+                  : null,
               SettingsTile(
                 title: 'Déconnexion',
                 leading: Icon(Icons.exit_to_app),

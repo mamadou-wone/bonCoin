@@ -234,18 +234,18 @@ class _NewPostState extends State<NewPost> {
                     ),
                     onPressed: () async {
                       if (_fbKey.currentState.saveAndValidate()) {
-                        await DataBase().addNewUserPost(
-                            uid: user.uid,
-                            category: category,
-                            description: description,
-                            firstImage: postImage[0],
-                            location: address,
-                            secondImage: postImage[1],
-                            thirdImage: postImage[2],
-                            timekey: new DateTime.now().toString(),
-                            title: title,
-                            phone: phone.toString(),
-                            rating: rating.toString());
+                        // await DataBase().addNewUserPost(
+                        //     uid: user.uid,
+                        //     category: category,
+                        //     description: description,
+                        //     firstImage: postImage[0],
+                        //     location: address,
+                        //     secondImage: postImage[1],
+                        //     thirdImage: postImage[2],
+                        //     timekey: new DateTime.now().toString(),
+                        //     title: title,
+                        //     phone: phone.toString(),
+                        //     rating: rating.toString());
                         await DataBase()
                             .addNewPost(
                                 uid: user.uid,

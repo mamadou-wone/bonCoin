@@ -1,12 +1,16 @@
 import 'dart:io';
 
 import 'package:bonCoin/Pages/HomeScreen.dart';
+import 'package:bonCoin/modals/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
 class DataBase {
   final CollectionReference postCollection =
       Firestore.instance.collection('post');
+
+  final firestoreInstance = Firestore.instance;
   String url;
   String url2;
   String url3;
@@ -122,6 +126,7 @@ class DataBase {
     var imageUrl3 = await (await uploadTask3.onComplete).ref.getDownloadURL();
     url3 = imageUrl3.toString();
     return await postCollection.add({
+      'uid': uid,
       'timeKey': timekey,
       'title': title,
       'description': description,
@@ -132,8 +137,13 @@ class DataBase {
       'firstImage': url,
       'secondImage': url2,
       'thirdImage': url3
-    }).whenComplete(() {
-      // return new HomeScreen();
-    });
+    }).whenComplete(() {});
+  }
+
+  Future deletePost(uid) async {
+    // var firebaseUser = await FirebaseAuth.instance.currentUser();
+
+    // var user = User();
+    postCollection.document(uid).delete().then((value) => print('success'));
   }
 }
