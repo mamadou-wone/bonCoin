@@ -8,6 +8,7 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  adobe_xd:
   flutter:
     sdk: flutter
   page_transition: ^1.1.6

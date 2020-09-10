@@ -1,4 +1,5 @@
 import 'package:bonCoin/Posts/post/model/post_list_data.dart';
+import 'package:bonCoin/iPhoneXXS11Pro1.dart';
 import 'package:bonCoin/modals/post.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -49,25 +50,26 @@ class _FavoriteState extends State<Favorite> {
   Widget build(BuildContext context) {
     // testData();
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              LineIcons.smile_o,
-              color: Colors.grey.withOpacity(0.8),
-              size: 100.0,
-            ),
-            Text(
-              'Aucun Favorie',
-              style: TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 22,
-                  color: Colors.grey.withOpacity(0.8)),
-            ),
-          ],
-        ),
-      ),
+      body: IiPhoneXXS11Pro1(),
+      // body: Center(
+      //   child: Column(
+      //     mainAxisAlignment: MainAxisAlignment.center,
+      //     children: [
+      //       Icon(
+      //         LineIcons.smile_o,
+      //         color: Colors.grey.withOpacity(0.8),
+      //         size: 100.0,
+      //       ),
+      //       Text(
+      //         'Aucun Favorie',
+      //         style: TextStyle(
+      //             fontWeight: FontWeight.w600,
+      //             fontSize: 22,
+      //             color: Colors.grey.withOpacity(0.8)),
+      //       ),
+      //     ],
+      //   ),
+      // ),
     );
   }
 }
