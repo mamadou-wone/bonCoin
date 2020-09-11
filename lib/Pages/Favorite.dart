@@ -50,26 +50,25 @@ class _FavoriteState extends State<Favorite> {
   Widget build(BuildContext context) {
     // testData();
     return Scaffold(
-      body: IiPhoneXXS11Pro1(),
-      // body: Center(
-      //   child: Column(
-      //     mainAxisAlignment: MainAxisAlignment.center,
-      //     children: [
-      //       Icon(
-      //         LineIcons.smile_o,
-      //         color: Colors.grey.withOpacity(0.8),
-      //         size: 100.0,
-      //       ),
-      //       Text(
-      //         'Aucun Favorie',
-      //         style: TextStyle(
-      //             fontWeight: FontWeight.w600,
-      //             fontSize: 22,
-      //             color: Colors.grey.withOpacity(0.8)),
-      //       ),
-      //     ],
-      //   ),
-      // ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              LineIcons.smile_o,
+              color: Colors.grey.withOpacity(0.8),
+              size: 100.0,
+            ),
+            Text(
+              'Aucun Favorie',
+              style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 22,
+                  color: Colors.grey.withOpacity(0.8)),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
