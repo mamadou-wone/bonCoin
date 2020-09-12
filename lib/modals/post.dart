@@ -9,6 +9,10 @@ import 'package:bonCoin/Posts/post/post_app_theme.dart';
 import 'package:getwidget/getwidget.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'dart:async';
+
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 class Post extends StatefulWidget {
   final String uid;
@@ -76,9 +80,6 @@ class _PostState extends State<Post> {
   bool _isFavorite = false;
   final _saved = Set<Post>();
   final List favoriteItem = [];
-  get favorite {
-    return favoriteItem;
-  }
 
   Widget buildSaved(String title) {
     final alreadySaved = favoriteItem.contains(title);
@@ -107,108 +108,101 @@ class _PostState extends State<Post> {
 
   @override
   Widget build(BuildContext context) {
-    final post = Post();
-    final alreadySaved = _saved.contains(post);
-    return GestureDetector(
-      child: SizedBox(
-        child: Hero(
-          tag: this.widget.firstImage,
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: widget.onTap,
-              child: GFCard(
-                boxFit: BoxFit.cover,
-                title: GFListTile(
-                  subTitle: Row(
-                    children: [
-                      Text(
-                        widget.category,
-                        style: TextStyle(
-                            fontSize: 14, color: Colors.grey.withOpacity(0.8)),
-                      ),
-                      SizedBox(
-                        width: 15.0,
-                      ),
-                      getIcon(widget.category),
-                    ],
-                  ),
-                  title: Text(
-                    widget.title,
-                    textAlign: TextAlign.left,
-                    style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 22,
-                    ),
-                  ),
-                ),
-                elevation: 1.0,
-                content: ClipRRect(
-                  borderRadius: const BorderRadius.all(Radius.circular(5.0)),
-                  child: Stack(
-                    children: [
-                      AspectRatio(
-                        aspectRatio: 0.7,
-                        child: CachedNetworkImage(
-                          imageUrl: widget.firstImage,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      Positioned(
-                        top: 8,
-                        right: 8,
-                        child: Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            borderRadius: const BorderRadius.all(
-                              Radius.circular(32.0),
-                            ),
-                            onTap: () {},
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: buildSaved(widget.title),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                buttonBar: GFButtonBar(
+    return SizedBox(
+      child: Hero(
+        tag: this.widget.firstImage,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: widget.onTap,
+            child: GFCard(
+              boxFit: BoxFit.cover,
+              title: GFListTile(
+                subTitle: Row(
                   children: [
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4),
-                      child: Row(
-                        children: <Widget>[
-                          SmoothStarRating(
-                            allowHalfRating: true,
-                            starCount: 5,
-                            rating: widget.rating,
-                            size: 20,
-                            color: PostAppTheme.buildLightTheme().primaryColor,
-                            borderColor:
-                                PostAppTheme.buildLightTheme().primaryColor,
+                    Text(
+                      widget.category,
+                      style: TextStyle(
+                          fontSize: 14, color: Colors.grey.withOpacity(0.8)),
+                    ),
+                    SizedBox(
+                      width: 15.0,
+                    ),
+                    getIcon(widget.category),
+                  ],
+                ),
+                title: Text(
+                  widget.title,
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    fontSize: 22,
+                  ),
+                ),
+              ),
+              elevation: 1.0,
+              content: ClipRRect(
+                borderRadius: const BorderRadius.all(Radius.circular(5.0)),
+                child: Stack(
+                  children: [
+                    AspectRatio(
+                      aspectRatio: 0.7,
+                      child: CachedNetworkImage(
+                        imageUrl: widget.firstImage,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    Positioned(
+                      top: 8,
+                      right: 8,
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(32.0),
                           ),
-                          Text(
-                            ' Note',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.grey.withOpacity(0.8),
-                            ),
+                          onTap: () {},
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: buildSaved(widget.title),
                           ),
-                        ],
+                        ),
                       ),
                     ),
                   ],
                 ),
               ),
+              buttonBar: GFButtonBar(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 4),
+                    child: Row(
+                      children: <Widget>[
+                        SmoothStarRating(
+                          allowHalfRating: true,
+                          starCount: 5,
+                          rating: widget.rating,
+                          size: 20,
+                          color: PostAppTheme.buildLightTheme().primaryColor,
+                          borderColor:
+                              PostAppTheme.buildLightTheme().primaryColor,
+                        ),
+                        Text(
+                          ' Note',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey.withOpacity(0.8),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ),
-      onLongPress: () {
-        print(favoriteItem);
-      },
     );
   }
 }

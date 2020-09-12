@@ -1,4 +1,8 @@
 import 'dart:io';
+import 'dart:async';
+
+import 'package:path/path.dart';
+import 'package:sqflite/sqflite.dart';
 
 import 'package:bonCoin/Pages/HomeScreen.dart';
 import 'package:bonCoin/modals/user.dart';
@@ -146,4 +150,52 @@ class DataBase {
     // var user = User();
     postCollection.document(uid).delete().then((value) => print('success'));
   }
+}
+
+class Dog {
+  final int id;
+  final String name;
+  final int age;
+
+  Dog({this.id, this.name, this.age});
+
+  // Convert a Dog into a Map. The keys must correspond to the names of the
+  // columns in the database.
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'age': age,
+    };
+  }
+}
+
+// SQFLITE
+void getFavorie() async {
+  final Future<Database> database = openDatabase(
+    join(await getDatabasesPath(), 'test'),
+    onCreate: (db, version) {
+      return db.execute(
+        'CREATE TABLE favorite(uid STRING PRIMARY KEY , title TEXT)',
+      );
+    },
+    version: 1,
+  );
+
+  Future<void> insertDog(Dog dog) async {
+    final Database db = await database;
+    await db.insert(
+      'dogs',
+      dog.toMap(),
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
+  final fido = Dog(
+    id: 0,
+    name: 'Fido',
+    age: 35,
+  );
+
+  await insertDog(fido);
 }
