@@ -55,6 +55,7 @@ class _HomeState extends State<Home> {
     });
   }
 
+// CHANGE THE BOTTOM NAVIGATION BAR
   @override
   Widget build(BuildContext context) {
     final user = Provider.of<User>(context);
