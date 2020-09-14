@@ -1,72 +1,182 @@
+import 'dart:io';
 import 'dart:async';
-
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
-import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
+import 'dart:convert';
 
-class Favories {
-  Future<Database> database;
+class DBProvider {
+  DBProvider._();
+  static final DBProvider db = DBProvider._();
+  static Database _database;
 
-  void initTable() async {
-    this.database = openDatabase(
-      join(await getDatabasesPath(), 'doggie_database.db'),
-      onCreate: (db, version) {
-        return db.execute(
-          "CREATE TABLE dogs(id INTEGER PRIMARY KEY, name TEXT, age INTEGER)",
-        );
-      },
+  Future<Database> get database async {
+    if (_database != null) {
+      return _database;
+    }
+
+    _database = await initDB();
+    return _database;
+  }
+
+  initDB() async {
+    Directory documentsDirectory = await getApplicationSupportDirectory();
+    String path = join(documentsDirectory.path, "TestDB.db");
+    return await openDatabase(
+      path,
       version: 1,
+      onOpen: (db) {},
+      onCreate: (db, int version) async {
+        await db.execute(
+            "CREATE TABLE CLIENT ('id INTEGER PRIMARY KEY, first_name TEXT, last_name TEXT, blocked BIT')");
+      },
     );
   }
 
-  Future<void> insertDog(Dog dog) async {
-    final Database db = await database;
-    await db.insert(
-      'dogs',
-      dog.toMap(),
+  newClient(Client newClient) async {
+    final db = await database;
+    var res = await db.insert(
+      "Client",
+      newClient.toMap(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
-
-    final fido = Dog(
-      id: 0,
-      name: 'Fido',
-      age: 35,
-    );
-
-    await insertDog(fido);
+    return res;
   }
 
-  Future<List<Dog>> dogs() async {
-    // Get a reference to the database.
-    final Database db = await database;
+  getClient(int id) async {
+    final db = await database;
+    var res = await db.query("Client", where: "id = ?", whereArgs: [id]);
+    return res.isNotEmpty ? Client.fromMap(res.first) : null;
+  }
 
-    // Query the table for all The Dogs.
-    final List<Map<String, dynamic>> maps = await db.query('dogs');
+  getAllClient() async {
+    final db = await database;
+    var res = await db.query("Client");
+    List<Client> list =
+        res.isNotEmpty ? res.map((c) => Client.fromMap(c)).toList() : [];
+    return list;
+  }
 
-    // Convert the List<Map<String, dynamic> into a List<Dog>.
+  Future<List<Client>> getBlockedClient() async {
+    final db = await database;
+
+    final List<Map<String, dynamic>> maps = await db.query('Client');
     return List.generate(maps.length, (i) {
-      return Dog(
-        id: maps[i]['id'],
-        name: maps[i]['name'],
-        age: maps[i]['age'],
-      );
+      return Client(
+          id: maps[i]['id'],
+          firstName: maps[i]['firstName'],
+          lastName: maps[i]['lastName'],
+          blocked: maps[i]['blocked']);
     });
+    //     return List.generate(maps.length, (i) {
+    //   return Dog(
+    //     id: maps[i]['id'],
+    //     name: maps[i]['name'],
+    //     age: maps[i]['age'],
+    //   );
+    // });
+
+    // var res = await db.rawQuery("SELECT * FROM Client WHERE blocked =1");
+    // List<Client> list =
+    //     res.isNotEmpty ? res.toList().map((e) => Client.fromMap(e)) : null;
+    // return list;
+  }
+
+  deleteClient(int id) async {
+    final db = await database;
+    db.delete("Client", where: "id = ?", whereArgs: [id]);
+  }
+
+  deleteAll() async {
+    final db = await database;
+    db.rawDelete("DELETE * FROM Client");
   }
 }
 
-class Dog {
-  final int id;
-  final String name;
-  final int age;
+class Client {
+  int id;
+  String firstName;
+  String lastName;
+  bool blocked;
 
-  Dog({this.id, this.name, this.age});
+  Client({this.id, this.firstName, this.lastName, this.blocked});
 
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'name': name,
-      'age': age,
-    };
+  factory Client.fromMap(Map<String, dynamic> json) => new Client(
+        id: json["id"],
+        firstName: json["first_name"],
+        lastName: json["last_name"],
+        blocked: json["blocked"] == 1,
+      );
+
+  Map<String, dynamic> toMap() => {
+        "id": id,
+        "firstNname": firstName,
+        "lastNname": lastName,
+        "blocked": blocked
+      };
+
+  List<Client> testClient = [
+    Client(id: 1, firstName: "Raouf", lastName: "Rahiche", blocked: false),
+    Client(firstName: "Zaki", lastName: "oun", blocked: true),
+    Client(firstName: "oussama", lastName: "ali", blocked: false),
+  ];
+}
+
+class ClientPreview extends StatefulWidget {
+  @override
+  _ClientPreviewState createState() => _ClientPreviewState();
+}
+
+class _ClientPreviewState extends State<ClientPreview> {
+  Client client =
+      Client(id: 1, firstName: "Raouf", lastName: "Rahiche", blocked: false);
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Test DB'),
+      ),
+      body: Row(
+        children: [
+          FlatButton(
+            child: Text('Display'),
+            onPressed: () async {
+              print(await DBProvider.db.getAllClient());
+            },
+          ),
+          FlatButton(
+            child: Text('Insert'),
+            onPressed: () async {
+              await DBProvider.db.newClient(client);
+            },
+          )
+        ],
+      ),
+      // body: FutureBuilder<List<Client>>(
+      //   future: DBProvider.db.getAllClient(),
+      //   builder: (BuildContext context, AsyncSnapshot<List<Client>> snapshot) {
+      //     if (snapshot.hasData) {
+      //       return ListView.builder(
+      //         itemCount: snapshot.data.length,
+      //         itemBuilder: (BuildContext context, int index) {
+      //           Client item = snapshot.data[index];
+      //           return Center(
+      //             child: FlatButton(
+      //               onPressed: () {},
+      //               child: Text('tap'),
+      //             ),
+      //           );
+      //         },
+      //       );
+      //     } else {
+      //       return Center(
+      //         child: CircularProgressIndicator(),
+      //       );
+      //     }
+      //   },
+      // ),
+    );
   }
 }
