@@ -117,7 +117,7 @@ class Client {
         "blocked": blocked
       };
 
-  List<Client> testClient = [
+  static List<Client> testClient = <Client>[
     Client(id: 1, firstName: "Raouf", lastName: "Rahiche", blocked: false),
     Client(firstName: "Zaki", lastName: "oun", blocked: true),
     Client(firstName: "oussama", lastName: "ali", blocked: false),
@@ -130,6 +130,7 @@ class ClientPreview extends StatefulWidget {
 }
 
 class _ClientPreviewState extends State<ClientPreview> {
+  List<Client> listClient = Client.testClient;
   Client client =
       Client(id: 1, firstName: "Raouf", lastName: "Rahiche", blocked: false);
   @override
@@ -138,45 +139,45 @@ class _ClientPreviewState extends State<ClientPreview> {
       appBar: AppBar(
         title: Text('Test DB'),
       ),
-      body: Row(
-        children: [
-          FlatButton(
-            child: Text('Display'),
-            onPressed: () async {
-              print(await DBProvider.db.getAllClient());
-            },
-          ),
-          FlatButton(
-            child: Text('Insert'),
-            onPressed: () async {
-              await DBProvider.db.newClient(client);
-            },
-          )
-        ],
-      ),
-      // body: FutureBuilder<List<Client>>(
-      //   future: DBProvider.db.getAllClient(),
-      //   builder: (BuildContext context, AsyncSnapshot<List<Client>> snapshot) {
-      //     if (snapshot.hasData) {
-      //       return ListView.builder(
-      //         itemCount: snapshot.data.length,
-      //         itemBuilder: (BuildContext context, int index) {
-      //           Client item = snapshot.data[index];
-      //           return Center(
-      //             child: FlatButton(
-      //               onPressed: () {},
-      //               child: Text('tap'),
-      //             ),
-      //           );
-      //         },
-      //       );
-      //     } else {
-      //       return Center(
-      //         child: CircularProgressIndicator(),
-      //       );
-      //     }
-      //   },
+      // body: Row(
+      //   children: [
+      //     FlatButton(
+      //       child: Text('Display'),
+      //       onPressed: () async {
+      //         print(await DBProvider.db.getAllClient());
+      //       },
+      //     ),
+      //     FlatButton(
+      //       child: Text('Insert'),
+      //       onPressed: () async {
+      //         await DBProvider.db.newClient(client);
+      //       },
+      //     )
+      //   ],
       // ),
+      body: FutureBuilder<List<Client>>(
+        future: DBProvider.db.getAllClient(),
+        builder: (BuildContext context, AsyncSnapshot<List<Client>> snapshot) {
+          if (snapshot.hasData) {
+            return ListView.builder(
+              itemCount: snapshot.data.length,
+              itemBuilder: (BuildContext context, int index) {
+                Client item = snapshot.data[index];
+                return Center(
+                  child: FlatButton(
+                    onPressed: () {},
+                    child: Text('tap'),
+                  ),
+                );
+              },
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
     );
   }
 }
