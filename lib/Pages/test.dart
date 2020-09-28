@@ -34,28 +34,52 @@ class DBProvider {
   }
 
   initDB() async {
-    Directory documentsDirectory = await getApplicationSupportDirectory();
+    Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, "TestDB.db");
-    return await openDatabase(
-      path,
-      version: 1,
-      onOpen: (db) {},
-      onCreate: (db, int version) async {
-        await db.execute(
-            "CREATE TABLE CLIENT ('id INTEGER PRIMARY KEY, first_name TEXT, last_name TEXT, blocked BIT')");
-      },
-    );
+    return await openDatabase(path, version: 1, onOpen: (db) {},
+        onCreate: (Database db, int version) async {
+      await db.execute("CREATE TABLE Client ("
+          "id INTEGER PRIMARY KEY,"
+          "first_name TEXT,"
+          "last_name TEXT,"
+          "blocked BIT"
+          ")");
+    });
   }
+  // initDB() async {
+  //   Directory documentsDirectory = await getApplicationSupportDirectory();
+  //   String path = join(documentsDirectory.path, "TestDB.db");
+  //   return await openDatabase(
+  //     path,
+  //     version: 1,
+  //     onOpen: (db) {},
+  //     onCreate: (db, int version) async {
+  //       await db.execute(
+  //           "CREATE TABLE Client ('id INTEGER PRIMARY KEY, first_name TEXT, last_name TEXT, blocked BIT')");
+  //     },
+  //   );
+  // }
 
   newClient(Client newClient) async {
     final db = await database;
-    var res = await db.insert(
-      "Client",
-      newClient.toMap(),
-      conflictAlgorithm: ConflictAlgorithm.replace,
-    );
+    var res = await db.rawInsert("INSERT Into Client (id,first_name)"
+        " VALUES (${newClient.id},${newClient.firstName})");
     return res;
   }
+  // newClient(Client newClient) async {
+  //   final db = await database;
+  //   var res = await db.insert("Client", newClient.toMap());
+  //   return res;
+  // }
+  // newClient(Client newClient) async {
+  //   final db = await database;
+  //   var res = await db.insert(
+  //     "Client",
+  //     newClient.toMap(),
+  //     conflictAlgorithm: ConflictAlgorithm.replace,
+  //   );
+  //   return res;
+  // }
 
   getClient(int id) async {
     final db = await database;
@@ -63,13 +87,20 @@ class DBProvider {
     return res.isNotEmpty ? Client.fromMap(res.first) : null;
   }
 
-  getAllClient() async {
+  getAllClients() async {
     final db = await database;
     var res = await db.query("Client");
     List<Client> list =
         res.isNotEmpty ? res.map((c) => Client.fromMap(c)).toList() : [];
     return list;
   }
+  // getAllClient() async {
+  //   final db = await database;
+  //   var res = await db.query("Client");
+  //   List<Client> list =
+  //       res.isNotEmpty ? res.map((c) => Client.fromMap(c)).toList() : [];
+  //   return list;
+  // }
 
   Future<List<Client>> getBlockedClient() async {
     final db = await database;
@@ -107,13 +138,28 @@ class DBProvider {
   }
 }
 
+Client clientFromJson(String str) {
+  final jsonData = json.decode(str);
+  return Client.fromMap(jsonData);
+}
+
+String clientToJson(Client data) {
+  final dyn = data.toMap();
+  return json.encode(dyn);
+}
+
 class Client {
   int id;
   String firstName;
   String lastName;
   bool blocked;
 
-  Client({this.id, this.firstName, this.lastName, this.blocked});
+  Client({
+    this.id,
+    this.firstName,
+    this.lastName,
+    this.blocked,
+  });
 
   factory Client.fromMap(Map<String, dynamic> json) => new Client(
         id: json["id"],
@@ -124,17 +170,40 @@ class Client {
 
   Map<String, dynamic> toMap() => {
         "id": id,
-        "firstNname": firstName,
-        "lastNname": lastName,
-        "blocked": blocked
+        "first_name": firstName,
+        "last_name": lastName,
+        "blocked": blocked,
       };
-
-  static List<Client> testClient = <Client>[
-    Client(id: 1, firstName: "Raouf", lastName: "Rahiche", blocked: false),
-    Client(firstName: "Zaki", lastName: "oun", blocked: true),
-    Client(firstName: "oussama", lastName: "ali", blocked: false),
-  ];
 }
+
+// class Client {
+//   int id;
+//   String firstName;
+//   String lastName;
+//   bool blocked;
+
+//   Client({this.id, this.firstName, this.lastName, this.blocked});
+
+//   factory Client.fromMap(Map<String, dynamic> json) => new Client(
+//         id: json["id"],
+//         firstName: json["first_name"],
+//         lastName: json["last_name"],
+//         blocked: json["blocked"] == 1,
+//       );
+
+//   Map<String, dynamic> toMap() => {
+//         "id": id,
+//         "first_name": firstName,
+//         "last_name": lastName,
+//         "blocked": blocked
+//       };
+
+//   static List<Client> testClient = <Client>[
+//     Client(id: 1, firstName: "Raouf", lastName: "Rahiche", blocked: false),
+//     Client(firstName: "Zaki", lastName: "oun", blocked: true),
+//     Client(firstName: "oussama", lastName: "ali", blocked: false),
+//   ];
+// }
 
 class ClientPreview extends StatefulWidget {
   @override
@@ -142,54 +211,18 @@ class ClientPreview extends StatefulWidget {
 }
 
 class _ClientPreviewState extends State<ClientPreview> {
-  List<Client> listClient = Client.testClient;
+  // List<Client> listClient = Client.testClient;
   Client client =
       Client(id: 1, firstName: "Raouf", lastName: "Rahiche", blocked: false);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Test DB'),
-      ),
-      // body: Row(
-      //   children: [
-      //     FlatButton(
-      //       child: Text('Display'),
-      //       onPressed: () async {
-      //         print(await DBProvider.db.getAllClient());
-      //       },
-      //     ),
-      //     FlatButton(
-      //       child: Text('Insert'),
-      //       onPressed: () async {
-      //         await DBProvider.db.newClient(client);
-      //       },
-      //     )
-      //   ],
-      // ),
-      body: FutureBuilder<List<Client>>(
-        future: DBProvider.db.getAllClient(),
-        builder: (BuildContext context, AsyncSnapshot<List<Client>> snapshot) {
-          if (snapshot.hasData) {
-            return ListView.builder(
-              itemCount: snapshot.data.length,
-              itemBuilder: (BuildContext context, int index) {
-                Client item = snapshot.data[index];
-                return Center(
-                  child: FlatButton(
-                    onPressed: () {},
-                    child: Text('tap'),
-                  ),
-                );
-              },
-            );
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        },
-      ),
-    );
+        body: FlatButton(
+      onPressed: () async {
+        await DBProvider.db.newClient(client);
+        print(await DBProvider.db.getAllClients());
+      },
+      child: Text('Tap'),
+    ));
   }
 }

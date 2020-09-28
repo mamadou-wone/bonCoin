@@ -9,6 +9,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:getwidget/components/carousel/gf_carousel.dart';
+import 'package:photo_view/photo_view.dart';
+import 'package:photo_view/photo_view_gallery.dart';
 import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -249,46 +251,45 @@ class _HomeScreenState extends State<HomeScreen> {
                                                                           3000.0,
                                                                     ),
                                                                     onTap: () {
-                                                                      Alert(
-                                                                        context:
-                                                                            context,
-                                                                        style:
-                                                                            AlertStyle(
-                                                                          isCloseButton:
-                                                                              true,
-                                                                        ),
-                                                                        title: post[
-                                                                            'title'],
-                                                                        content:
-                                                                            Container(
-                                                                          margin:
-                                                                              EdgeInsets.all(8.0),
-                                                                          child:
-                                                                              ClipRRect(
-                                                                            borderRadius:
-                                                                                BorderRadius.all(
-                                                                              Radius.circular(25.0),
-                                                                            ),
-                                                                            child:
-                                                                                CarouselSlider.builder(
-                                                                              itemCount: images.length,
-                                                                              options: CarouselOptions(
-                                                                                autoPlay: true,
-                                                                                enlargeCenterPage: true,
-                                                                                aspectRatio: 16 / 9,
-                                                                                height: 300,
+                                                                      Navigator.of(
+                                                                              context)
+                                                                          .push(
+                                                                        MaterialPageRoute(
+                                                                          builder:
+                                                                              (BuildContext context) {
+                                                                            return Scaffold(
+                                                                              appBar: AppBar(
+                                                                                backgroundColor: Colors.black,
+                                                                                automaticallyImplyLeading: true,
                                                                               ),
-                                                                              itemBuilder: (context, index) {
-                                                                                return CachedNetworkImage(
-                                                                                  imageUrl: images[index],
-                                                                                  fit: BoxFit.cover,
-                                                                                  width: 1100.0,
-                                                                                );
-                                                                              },
-                                                                            ),
-                                                                          ),
+                                                                              body: Container(
+                                                                                child: PhotoViewGallery.builder(
+                                                                                  scrollPhysics: const BouncingScrollPhysics(),
+                                                                                  builder: (BuildContext context, int index) {
+                                                                                    return PhotoViewGalleryPageOptions(
+                                                                                      imageProvider: NetworkImage(images[index]),
+                                                                                      initialScale: PhotoViewComputedScale.contained * 0.9,
+                                                                                    );
+                                                                                  },
+                                                                                  itemCount: images.length,
+                                                                                  loadingBuilder: (context, event) => Center(
+                                                                                    child: Container(
+                                                                                      width: 20.0,
+                                                                                      height: 20.0,
+                                                                                      child: CircularProgressIndicator(
+                                                                                        value: event == null ? 0 : event.cumulativeBytesLoaded / event.expectedTotalBytes,
+                                                                                      ),
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                decoration: BoxDecoration(
+                                                                                  color: Colors.grey[50],
+                                                                                ),
+                                                                              ),
+                                                                            );
+                                                                          },
                                                                         ),
-                                                                      ).show();
+                                                                      );
                                                                     },
                                                                   ),
                                                                 ),

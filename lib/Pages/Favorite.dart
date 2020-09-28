@@ -1,4 +1,5 @@
 import 'package:bonCoin/Pages/test.dart';
+import 'package:bonCoin/Pages/testDB.dart';
 import 'package:bonCoin/Posts/post/model/post_list_data.dart';
 import 'package:bonCoin/iPhoneXXS11Pro1.dart';
 import 'package:bonCoin/modals/post.dart';
@@ -28,7 +29,7 @@ class _FavoriteState extends State<Favorite> {
   Widget build(BuildContext context) {
     // testData();
     return Scaffold(
-      body: ClientPreview(),
+      body: TestDog(),
       // body: Center(
       //   child: Column(
       //     mainAxisAlignment: MainAxisAlignment.center,
