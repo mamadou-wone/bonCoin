@@ -30,6 +30,8 @@ class DBProvider {
     });
   }
 
+  // Make my presentation for toom
+
   newClient(Client newClient) async {
     final db = await database;
     // var table = await db.rawQuery("SELECT MAX(id)+1 as id FROM Client");
