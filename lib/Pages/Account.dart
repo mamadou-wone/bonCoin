@@ -19,6 +19,7 @@ class Account extends StatefulWidget {
   _AccountState createState() => _AccountState();
 }
 
+// Presentation
 class _AccountState extends State<Account> {
   AnimationController animationController;
   final ScrollController _scrollController = ScrollController();
