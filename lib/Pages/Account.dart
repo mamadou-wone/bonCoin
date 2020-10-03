@@ -15,6 +15,7 @@ import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 // End 100Days Of code
+// Journéé null
 class Account extends StatefulWidget {
   @override
   _AccountState createState() => _AccountState();
