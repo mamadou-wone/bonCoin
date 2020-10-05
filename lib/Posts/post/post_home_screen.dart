@@ -27,8 +27,8 @@ class _PostHomeScreenState extends State<PostHomeScreen>
 
   @override
   void initState() {
-    animationController = AnimationController(
-        duration: const Duration(milliseconds: 1000), vsync: this);
+    animationController =
+        AnimationController(duration: const Duration(milliseconds: 1000));
     super.initState();
   }
 

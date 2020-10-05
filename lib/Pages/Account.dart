@@ -14,9 +14,12 @@ import 'package:getwidget/components/carousel/gf_carousel.dart';
 import 'package:provider/provider.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
+<<<<<<< HEAD
 // End 100Days Of code
 // Journéé null
 // Journéé null
+=======
+>>>>>>> parent of 3eec4dc... Day100 #100DaysOfCode [100/100]
 class Account extends StatefulWidget {
   @override
   _AccountState createState() => _AccountState();
