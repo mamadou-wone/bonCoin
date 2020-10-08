@@ -12,6 +12,7 @@ import 'package:line_icons/line_icons.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 // 07/10/2020
+// 08/10/2020
 class Favorite extends StatefulWidget {
   @override
   _FavoriteState createState() => _FavoriteState();
